@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ticket;
+use App\Models\Extra;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class ExtraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class TicketController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Ticket  $ticket
+     * @param  \App\Models\Extra  $extra
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show(Extra $extra)
     {
         //
     }
@@ -52,10 +52,10 @@ class TicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Ticket  $ticket
+     * @param  \App\Models\Extra  $extra
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ticket $ticket)
+    public function edit(Extra $extra)
     {
         //
     }
@@ -64,10 +64,10 @@ class TicketController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ticket  $ticket
+     * @param  \App\Models\Extra  $extra
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, Extra $extra)
     {
         //
     }
@@ -75,10 +75,10 @@ class TicketController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Ticket  $ticket
+     * @param  \App\Models\Extra  $extra
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
+    public function destroy(Extra $extra)
     {
         //
     }
