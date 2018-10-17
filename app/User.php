@@ -31,4 +31,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function organizedEvents(){
+        return $this->hasMany('App\Models\Event', 'organizer_id' );
+    }
+
+    public function extras(){
+        return $this->belongsToMany('App\Models\Extra', 'answers')->withPivot('answer');
+    }
+
+    public function events(){
+        return $this->belongsToMany('App\Models\Event', 'tickets')->withPivot('code')->withTimestamps();
+    }
 }
