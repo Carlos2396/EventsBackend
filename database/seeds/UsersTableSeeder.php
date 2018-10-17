@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
-
+use Ramsey\Uuid\Uuid;
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -20,14 +20,20 @@ class UsersTableSeeder extends Seeder
         $password = Hash::make('secret');
 
         $admin = User::create([
-            'name' => 'Administrator',
+            'firstname' => 'Administrator',
+            'lastname' => 'Administrator',
+            'confirmation_code' => Uuid::uuid1(),
+            'gender' => 'other',
             'email' => 'admin@test.com',
             'password' => $password,
         ]);
         $admin->assignRole('admin');
 
         $user = User::create([
-            'name' => 'User',
+            'firstname' => 'User',
+            'lastname' => 'User',
+            'confirmation_code' => Uuid::uuid1(),
+            'gender' => 'other',
             'email' => 'user@test.com',
             'password' => $password,
         ]);

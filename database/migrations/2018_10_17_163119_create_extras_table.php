@@ -15,7 +15,22 @@ class CreateExtrasTable extends Migration
     {
         Schema::create('extras', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('event_id')->unsigned();
+            $table->string('text');
             $table->timestamps();
+
+            $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelete('cascade');
+        });
+
+        Schema::create('answers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('extra_id')->unsigned();
+            $table->string('answer');
+            $table->timestamps();
+            
+            $table->foreign('extra_id')->references('id')->on('extras')->onUpdate('cascade')->onDelte('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -26,6 +41,8 @@ class CreateExtrasTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfEXists('answers');
         Schema::dropIfExists('extras');
+        
     }
 }

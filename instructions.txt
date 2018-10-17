@@ -6,6 +6,9 @@ Update the .env file
 Then migrate the database
     php artisan migrate --seed
 
+Generate key
+    php artisan key:generate
+
 Then run
     php artisan passport:install
 
