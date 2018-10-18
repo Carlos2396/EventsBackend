@@ -15,7 +15,7 @@ class TicketsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('tickets')->insert([
             'event_id' => 1,
             'user_id' => 2,
             'code' => Uuid::uuid1(),

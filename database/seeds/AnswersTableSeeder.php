@@ -13,7 +13,7 @@ class AnswersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert ([
+        DB::table('answers')->insert ([
             'user_id' => 2,
             'extra_id' => 1,
             'answer' => 'Mediana',
@@ -21,7 +21,7 @@ class AnswersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('users')->insert ([
+        DB::table('answers')->insert ([
             'user_id' => 2,
             'extra_id' => 1,
             'answer' => '60',
