@@ -4,6 +4,7 @@ namespace Tests\Unit\Users;
 
 use Tests\TestCase;
 use Tests\Helper;
+use App\User;
 
 use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -43,7 +44,7 @@ class DeleteUserTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::first();
+        $user = User::all()->last();
 
         $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->email));
         

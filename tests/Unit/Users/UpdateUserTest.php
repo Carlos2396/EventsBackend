@@ -5,6 +5,7 @@ namespace Tests\Unit\Users;
 use Tests\TestCase;
 use Tests\Helper;
 use Carbon\Carbon;
+use App\User;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -24,6 +25,8 @@ class UpdateUserTest extends TestCase
      */
     public function testSuccessfulUpdateUser()
     {
+        parent::withoutMiddleware(Helper::$middlewares);
+
         $user = User::first();
         $user->firstname = "New name";
         $user->firstname = "New lastname";
@@ -31,14 +34,17 @@ class UpdateUserTest extends TestCase
         $response = $this
             ->withHeaders(self::$headers)
             ->json(
-                'POST',
+                'PUT',
                 route('users.update', $user->email),
-                $user
+                $user->toArray()
             );
+
+        $data = $user->toArray();
+        unset($data['updated_at']);
 
         $response
             ->assertStatus(200)
-            ->assertJson($user->toArray());
+            ->assertJson($data);
     }
 
     /**
@@ -46,19 +52,23 @@ class UpdateUserTest extends TestCase
      */
     public function testFailedRegisterUser()
     {
+        parent::withoutMiddleware(Helper::$middlewares);
+        
         $user = User::first();
         $user->firstname = null;
         $user->lastname = 'Too long last name it, cant be longer than a 100 characters and this is definitely larger than a 100 characters.';
-        $user->email = 'testuser';
-        $user->birthdate = '15/78/1554';
         $user->phone = '222145487a';
+
+        $data = $user->toArray();
+        $data['birthdate'] = '15/78/1554';
+        $data['email'] = 'testuser';
         
         $response = $this
             ->withHeaders(self::$headers)
             ->json(
-                'POST',
+                'PUT',
                 route('users.update', $user->email),
-                $user
+                $data
             );
 
         $response
@@ -70,7 +80,7 @@ class UpdateUserTest extends TestCase
                     'lastname' => ['The lastname may not be greater than 100 characters.'],
                     'email' => ['The email must be a valid email address.'],
                     'birthdate' => ['The birthdate is not a valid date.'],
-                    'phone' => ['The phone must be a numeric.']
+                    'phone' => ['The phone must be a number.']
                 ]
             ]);
     }

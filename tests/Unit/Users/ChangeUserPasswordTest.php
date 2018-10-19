@@ -5,6 +5,7 @@ namespace Tests\Unit\Users;
 use Tests\TestCase;
 use Tests\Helper;
 use Carbon\Carbon;
+use App\User;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -24,6 +25,8 @@ class ChangeUserPasswordTest extends TestCase
      */
     public function testSuccessfulChangeuserPassword()
     {
+        parent::withoutMiddleware(Helper::$middlewares);
+
         $user = User::first();
         $data = [
             'old_password' => 'secret',
@@ -47,6 +50,8 @@ class ChangeUserPasswordTest extends TestCase
      */
     public function testFailedChangeUserPassword()
     {
+        parent::withoutMiddleware(Helper::$middlewares);
+
         $user = User::first();
         $data = [
             'old_password' => 'secreto',
@@ -63,7 +68,7 @@ class ChangeUserPasswordTest extends TestCase
             );
 
         $response
-            ->assertStatus(401)
+            ->assertStatus(400)
             ->assertExactJson([
                 'message' => 'Incorrect old password.'
             ]);

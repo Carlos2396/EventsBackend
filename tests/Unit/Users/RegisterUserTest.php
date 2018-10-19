@@ -5,6 +5,8 @@ namespace Tests\Unit\Users;
 use Tests\TestCase;
 use Tests\Helper;
 use Carbon\Carbon;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -44,13 +46,19 @@ class RegisterUserTest extends TestCase
                 $user
             );
 
-        $user['birthdate'] = Carbon::new($user['birthdate']);
-        $user['password'] = Hash::make('secret');
+        $birthdate = Carbon::createFromFormat('Y-m-d', $user['birthdate']); 
+        unset($user['password']);
         unset($user['password_confirmation']);
+        unset($user['birthdate']);
 
         $response
             ->assertStatus(201)
             ->assertJson($user);
+        
+        $data = $response->decodeResponseJson();
+        $date = Carbon::createFromFormat('Y-m-d H:i:s',$data['birthdate']);
+
+        $this->assertTrue($birthdate->isSameDay($date));
     }
 
     /**
@@ -87,7 +95,7 @@ class RegisterUserTest extends TestCase
                     'lastname' => ['The lastname may not be greater than 100 characters.'],
                     'email' => ['The email must be a valid email address.'],
                     'birthdate' => ['The birthdate is not a valid date.'],
-                    'phone' => ['The phone must be a numeric.'],
+                    'phone' => ['The phone must be a number.'],
                     'password' => ['The password confirmation does not match.']
                 ]
             ]);
