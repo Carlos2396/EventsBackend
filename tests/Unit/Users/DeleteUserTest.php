@@ -27,7 +27,7 @@ class DeleteUserTest extends TestCase
 
         $user = User::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->id + 1));
+        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->email.'.mx'));
         
         $response
             ->assertStatus(404)
@@ -45,7 +45,7 @@ class DeleteUserTest extends TestCase
 
         $user = User::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->email));
         
         $response->assertStatus(204);
     }

@@ -45,6 +45,9 @@ class RegisterUserTest extends TestCase
             );
 
         $user['birthdate'] = Carbon::new($user['birthdate']);
+        $user['password'] = Hash::make('secret');
+        unset($user['password_confirmation']);
+
         $response
             ->assertStatus(201)
             ->assertJson($user);

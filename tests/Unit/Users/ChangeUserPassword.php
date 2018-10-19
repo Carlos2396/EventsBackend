@@ -34,8 +34,8 @@ class ChangeUserPasswordTest extends TestCase
         $response = $this
             ->withHeaders(self::$headers)
             ->json(
-                'POST',
-                route('users.changePassword', $user->id),
+                'PUT',
+                route('users.changePassword', $user->email),
                 $data
             );
 
@@ -43,9 +43,9 @@ class ChangeUserPasswordTest extends TestCase
     }
 
     /**
-     * Test fail create Article with a too long title
+     * Test fail change user password, old password is incorrect
      */
-    public function testFailedRegisterUser()
+    public function testFailedChangeUserPassword()
     {
         $user = User::first();
         $data = [
@@ -57,8 +57,8 @@ class ChangeUserPasswordTest extends TestCase
         $response = $this
             ->withHeaders(self::$headers)
             ->json(
-                'POST',
-                route('users.changePassword', $user->id),
+                'PUT',
+                route('users.changePassword', $user->email),
                 $data
             );
 

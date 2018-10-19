@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('phone', 13);
             $table->string('alias', 100)->nullable();
             $table->string('image')->nullable();
-            $table->uuid('confirmation_code');
+            $table->uuid('confirmation_code')->nullable();
             $table->timestamp('confirmed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

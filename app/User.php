@@ -16,12 +16,31 @@ class User extends Authenticatable
     protected $guard_name = 'api';
 
     /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'email';
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password', 'firstname', 'lastname', 'birthdate', 'gender', 'phone', 'alias', 'image'
+    ];
+
+    /**
+     * The attributes that are dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'birthdate', 'confirmed_at' 
     ];
 
     /**
@@ -30,7 +49,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'confirmation_code'
     ];
 
     public function organizedEvents(){
@@ -49,7 +68,6 @@ class User extends Authenticatable
      * Rules for common attributes
      */
     private static $rules = [
-        'email' => 'required|string|email|max:255|unique:users',
         'firstname' => 'required|string|max:100',
         'lastname' => 'required|string|max:100',
         'birthdate' => 'required|date',
@@ -62,7 +80,10 @@ class User extends Authenticatable
      * Validates data required for registering a user
      */
     public static function validate($data) {
-        $rules = array_merge(self::$rules, ['password' => 'required|string|min:6|confirmed']);
+        $rules = array_merge(self::$rules, [
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
 
         return Validator::make($data, $rules);
     }
@@ -70,8 +91,17 @@ class User extends Authenticatable
     /**
      * Validates data for updating a user
      */
-    public static function validateUpdate($data) {
-        return Validator::make($data, self::$rules);
+    public static function validateUpdate($data, $email) {
+        if($data['email'] !== $email) {
+            $rules = array_merge(self::$rules, [
+                'email' => 'required|string|email|max:255|unique:users',
+            ]);
+        }
+        else {
+            $rules = self::$rules;
+        }
+        
+        return Validator::make($data, $rules);
     }
 
     /**

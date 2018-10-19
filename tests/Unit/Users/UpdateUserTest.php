@@ -32,7 +32,7 @@ class UpdateUserTest extends TestCase
             ->withHeaders(self::$headers)
             ->json(
                 'POST',
-                route('users.update', $user->id),
+                route('users.update', $user->email),
                 $user
             );
 
@@ -57,7 +57,7 @@ class UpdateUserTest extends TestCase
             ->withHeaders(self::$headers)
             ->json(
                 'POST',
-                route('users.update', $user->id),
+                route('users.update', $user->email),
                 $user
             );
 
