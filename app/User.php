@@ -45,6 +45,9 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\Event', 'tickets')->withPivot('code')->withTimestamps();
     }
 
+    /**
+     * Rules for common attributes
+     */
     private static $rules = [
         'email' => 'required|string|email|max:255|unique:users',
         'firstname' => 'required|string|max:100',
@@ -55,16 +58,25 @@ class User extends Authenticatable
         'alias' => 'nullable|string|max:100'
     ];
 
+    /**
+     * Validates data required for registering a user
+     */
     public static function validate($data) {
         $rules = array_merge(self::$rules, ['password' => 'required|string|min:6|confirmed']);
 
         return Validator::make($data, $rules);
     }
 
+    /**
+     * Validates data for updating a user
+     */
     public static function validateUpdate($data) {
         return Validator::make($data, self::$rules);
     }
 
+    /**
+     * Validates data for changing the password of the user
+     */
     public static function validateChangePassword($data) {
         return Validator::make($data, [
             'old_password' => 'required|string|min:6',
