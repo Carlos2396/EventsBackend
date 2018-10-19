@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->enum('gender', ['male', 'female', 'other']);
             $table->string('password');
             $table->string('phone', 13);
-            $table->string('alias')->nullable();
+            $table->string('alias', 100)->nullable();
             $table->string('image')->nullable();
             $table->uuid('confirmation_code');
             $table->timestamp('confirmed_at')->nullable();

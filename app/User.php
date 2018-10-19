@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Validator;
 
 class User extends Authenticatable
 {
@@ -42,5 +43,32 @@ class User extends Authenticatable
 
     public function events(){
         return $this->belongsToMany('App\Models\Event', 'tickets')->withPivot('code')->withTimestamps();
+    }
+
+    private static $rules = [
+        'email' => 'required|string|email|max:255|unique:users',
+        'firstname' => 'required|string|max:100',
+        'lastname' => 'required|string|max:100',
+        'birthdate' => 'required|date',
+        'gender' => 'required|string|alpha',
+        'phone' => 'required|numeric',
+        'alias' => 'nullable|string|max:100'
+    ];
+
+    public static function validate($data) {
+        $rules = array_merge(self::$rules, ['password' => 'required|string|min:6|confirmed']);
+
+        return Validator::make($data, $rules);
+    }
+
+    public static function validateUpdate($data) {
+        return Validator::make($data, self::$rules);
+    }
+
+    public static function validateChangePassword($data) {
+        return Validator::make($data, [
+            'old_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
     }
 }
