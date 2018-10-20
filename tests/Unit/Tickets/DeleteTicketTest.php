@@ -5,7 +5,8 @@ namespace Tests\Unit\Tickets;
 use Tests\TestCase;
 use Tests\Helper;
 
-use App\Models\Ticket;
+use App\User;
+use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -25,7 +26,8 @@ class DeleteTicketTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $ticket = Ticket::first();
+        $user = User::first();
+        $event = Event::first();
 
         $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', $ticket->id));
         
@@ -57,9 +59,11 @@ class DeleteTicketTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $ticket = Ticket::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', "1"));
+        $user = User::first();
+        $event = Event::first();
+
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', ));
         
         $response
             ->assertStatus(404)

@@ -32,11 +32,8 @@ Route::group(['namespace' => 'API'], function() {
         /**
          * Ticket routes
          */
-        Route::get('tickets', 'TicketController@index')->name('tickets.list'); 
         Route::post('tickets', 'TicketController@store')->name('tickets.store');
-        Route::put('tickets/{ticket}', 'TicketController@update')->name('tickets.update');
-        Route::delete('tickets/{ticket}', 'TicketController@destroy')->name('tickets.delete');
-        Route::get('tickets/{ticket}', 'TicketController@show')->name('tickets.show');
+        Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
 
         /**
          * Location routes
