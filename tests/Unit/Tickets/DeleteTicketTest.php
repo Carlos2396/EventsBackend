@@ -1,0 +1,75 @@
+<?php
+
+namespace Tests\Unit\Tickets;
+
+use Tests\TestCase;
+use Tests\Helper;
+
+use App\User;
+use App\Models\Event;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
+class DeleteTicketTest extends TestCase 
+{
+    use DatabaseTransactions;
+
+    static $headers = [
+        'Accept' => 'application/json'
+    ];
+
+    /**
+     * Test succesful elimination 
+     */
+    public function testDeleteExistentTicket()
+    {
+        parent::withoutMiddleware(Helper::$middlewares);
+
+        $user = User::first();
+        $event = Event::first();
+
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', [$user->id, $event->id]));
+        
+        $response->assertStatus(204);
+    }
+
+    /**
+     * Test fail delete of non existent ticket
+     */
+    public function testDeleteNonExistentTicket()
+    {
+        parent::withoutMiddleware(Helper::$middlewares);
+
+        $user = User::first();
+        $event = Event::all()->last();
+
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', [$user->id, $event->id + 1]));
+        
+        $response
+            ->assertStatus(404)
+            ->assertExactJson([
+                'message' => 'Resource not found'
+            ]);
+    }
+
+    /**
+     * Test fail delete with wrong attribute type
+     */
+    public function testDeleteWrongFieldType()
+    {
+        parent::withoutMiddleware(Helper::$middlewares);
+
+
+        $user = User::first();
+        $event = Event::first();
+
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', ['rer', 1]));
+        
+        $response
+            ->assertStatus(404)
+            ->assertExactJson([
+                'message' => 'Resource not found'
+        ]);
+    }
+}

@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Location;
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Validator;
+use App\User;
+use App\Models\Event;
 
-class LocationController extends Controller
+
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,16 +40,32 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'event_id' => 'present|required|numeric|exists:events,id',
+            'user_id' => 'present|required|numeric|exists:users,id'
+        ]);
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $user = User::find($request->user_id);
+        $event = Event::find($request->event_id);
+
+        $user->events()->detach($event->id);
+        
+        $user->events()->attach($event->id, ['code' => ''.$user->id.$event->id]);
+
+        return response()->json($user->events->find($event->id)->pivot, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Location  $location
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show($id)
     {
         //
     }
@@ -52,10 +73,10 @@ class LocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Location  $location
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Location $location)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +85,10 @@ class LocationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Location  $location
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,11 +96,12 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Location $location)
+    public function destroy(User $user, Event $event)
     {
-        //
+        $user->events()->detach($event->id);
+
+        return response()->json($user, 204);
     }
 }
