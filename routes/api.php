@@ -60,6 +60,13 @@ Route::group(['namespace' => 'API'], function() {
     Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
 
     /**
+     * Answers routes
+     */
+    Route::post('answers', 'AnswerController@store')->name('answers.store');
+    Route::put('answers/{answer}', 'AnswerController@update')->name('answers.update');
+
+
+    /**
      * Authentication routes
      */
     Route::group(['namespace' => 'Auth'], function() {
