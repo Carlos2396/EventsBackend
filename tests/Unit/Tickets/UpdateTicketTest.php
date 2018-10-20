@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Articles;
+namespace Tests\Unit\Tickets;
 
 use Tests\TestCase;
 use Tests\Helper;
@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Ticket;
 
-class UpdateticketTest extends TestCase 
+class UpdateTicketTest extends TestCase 
 {
     use DatabaseTransactions;
 
