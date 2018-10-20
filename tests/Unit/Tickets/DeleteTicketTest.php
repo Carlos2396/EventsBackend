@@ -51,9 +51,9 @@ class DeleteTicketTest extends TestCase
     }
 
     /**
-     * Test fail delete with wrong attribute
+     * Test fail delete with wrong attribute type
      */
-    public function testDeleteWrongField()
+    public function testDeleteWrongFieldType()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
