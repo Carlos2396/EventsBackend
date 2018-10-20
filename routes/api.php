@@ -16,6 +16,39 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['namespace' => 'API'], function() {
+    
+    /**
+     * Unprotected routes
+     */
+    Route::post('users', 'UserController@store')->name('users.register');
+
+    
+    /**
+     * Auth protected routes
+     */
+    Route::group(['middleware' => 'auth:api'], function() {
+        
+        // User routes
+        Route::put('users/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
+        Route::put('users', 'UserController@updateLogged')->name('users.logged.update');
+        Route::delete('users', 'UserController@destroyLogged')->name('users.logged.delete');
+    });
+
+    /**
+     * Auth and Admin protected routes
+     */
+    Route::group(['middleware' => ['auth:api', 'role:admin']], function() {
+        
+        /**
+         * User routes
+         */
+        Route::get('users', 'UserController@index')->name('users.list'); 
+        Route::get('users/{user}', 'UserController@show')->name('users.show');
+        Route::put('users/{user}/changePassword', 'UserController@changePassword')->name('users.changePassword');
+        Route::put('users/{user}', 'UserController@update')->name('users.update');
+        Route::delete('users/{user}', 'UserController@destroy')->name('users.delete');
+    });
+
     /**
      * Authentication routes
      */
@@ -24,6 +57,7 @@ Route::group(['namespace' => 'API'], function() {
     
         Route::group(['middleware' => 'auth:api'], function() { 
             Route::get('logout', 'AuthController@logout')->name('logout');
+            Route::get('logged', 'AuthController@loggedUSer')->name('logged');
         });
     });
 

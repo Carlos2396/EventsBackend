@@ -34,6 +34,10 @@ class AuthController extends Controller
         return response(['success' => true], 200);
     }
 
+    public function loggedUser(Request $request) {
+        return response()->json($user, 200);
+    }
+
     public function check(Request $request) {
         return response()->json([
             'authenticated' =>  Auth::check()

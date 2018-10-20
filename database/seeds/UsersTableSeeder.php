@@ -24,6 +24,8 @@ class UsersTableSeeder extends Seeder
             'lastname' => 'Administrator',
             'confirmation_code' => Uuid::uuid1(),
             'gender' => 'other',
+            'birthdate' => '1996-05-04',
+            'phone' => '2221456487',
             'email' => 'admin@test.com',
             'password' => $password,
         ]);
@@ -34,6 +36,8 @@ class UsersTableSeeder extends Seeder
             'lastname' => 'User',
             'confirmation_code' => Uuid::uuid1(),
             'gender' => 'other',
+            'birthdate' => '1996-05-08',
+            'phone' => '2221456488',
             'email' => 'user@test.com',
             'password' => $password,
         ]);
