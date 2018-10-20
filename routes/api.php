@@ -29,9 +29,10 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['middleware' => 'auth:api'], function() {
         
         // User routes
-        Route::put('users/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
-        Route::put('users', 'UserController@updateLogged')->name('users.logged.update');
-        Route::delete('users', 'UserController@destroyLogged')->name('users.logged.delete');
+        Route::get('user', 'UserController@loggedUser')->name('users.logged');
+        Route::put('user/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
+        Route::put('user', 'UserController@updateLogged')->name('users.logged.update');
+        Route::delete('user', 'UserController@destroyLogged')->name('users.logged.delete');
     });
 
     /**
