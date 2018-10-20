@@ -50,6 +50,15 @@ Route::group(['namespace' => 'API'], function() {
     });
 
     /**
+     * Extras routes
+     */
+    Route::get('extras', 'ExtraController@index')->name('extras.list'); 
+    Route::post('extras', 'ExtraController@store')->name('extras.store');
+    Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
+    Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
+    Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
+    
+    /**
      * Authentication routes
      */
     Route::group(['namespace' => 'Auth'], function() {
