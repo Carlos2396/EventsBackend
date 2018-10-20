@@ -14,8 +14,8 @@ class Location extends Model
             'event_id' => 'present|required|exists',
             'name' => 'present|required|string',
             'address'=>'present|required',
-            'lat' => 'present|required|numeric',
-            'lng' => 'present|required|numeric'
+            'lat' => 'present|required|numeric|max:90|min:-90',
+            'lng' => 'present|required|numeric|max:180|min:-180'
         ]);
     }
 
