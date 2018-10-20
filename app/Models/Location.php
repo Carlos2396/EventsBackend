@@ -11,11 +11,11 @@ class Location extends Model
 
     public static function validate($data) {
         return Validator::make($data, [
-            'event_id' => 'required',
-            'name' => 'string',
-            'address'=>'required|present',
-            'lat' => 'numeric',
-            'lng' => 'numeric'
+            'event_id' => 'present|required',
+            'name' => 'present|required|string',
+            'address'=>'present|required',
+            'lat' => 'present|required|numeric',
+            'lng' => 'present|required|numeric'
         ]);
     }
 

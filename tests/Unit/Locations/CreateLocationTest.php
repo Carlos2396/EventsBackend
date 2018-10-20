@@ -38,7 +38,7 @@ class CreateLocationTest extends TestCase
             ->json(
                 'POST',
                 route('locations.store'),
-                 $location
+                $location
             );
 
         $response
@@ -70,11 +70,11 @@ class CreateLocationTest extends TestCase
             );
 
         $response
-            ->assertStatus(400)
-            ->assertJson([
+        ->assertStatus(400)
+            ->assertExactJson([
                 'message' => 'Failed data validation',
                 'errors' => [
-                    'event_id' => ['The event_id field is required.'],
+                    'event_id' => ['The event id field is required.'],
                     'address' => ['The address field must be present.'],
                 ]
             ]);
@@ -91,8 +91,8 @@ class CreateLocationTest extends TestCase
             'event_id' => 1,
             'name' => 'Itesm Mty',
             'address' => 'Calle pro',
-            'lat' => '57.43',
-            'lng' => '46.67'
+            'lat' => 'twenty',
+            'lng' => 'forty34'
         ];
         
         $response = $this
