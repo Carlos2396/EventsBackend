@@ -32,7 +32,7 @@ class RetrieveSponsorTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($sponsors->toArray());
+            ->assertJson($sponsors->toArray());
     }
 
     /**
@@ -48,7 +48,7 @@ class RetrieveSponsorTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($sponsor->toArray());
+            ->assertJson($sponsor->toArray());
     }
 
     /**
