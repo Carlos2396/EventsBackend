@@ -42,5 +42,17 @@ class UsersTableSeeder extends Seeder
             'password' => $password,
         ]);
         $user->assignRole('user');
+
+        $user2 = User::create([
+            'firstname' => 'User2',
+            'lastname' => 'User2',
+            'confirmation_code' => Uuid::uuid1(),
+            'gender' => 'other',
+            'birthdate' => '1996-05-08',
+            'phone' => '2221456488',
+            'email' => 'user2@test.com',
+            'password' => $password,
+        ]);
+        $user2->assignRole('user');
     }
 }
