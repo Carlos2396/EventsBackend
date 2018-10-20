@@ -6,8 +6,56 @@ use App\Models\Answer;
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use Validator;
 
 class AnswerController extends Controller
 {
-    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required | exists:users,id',
+            'extra_id' => 'required | exists:extras,id',
+            'answer' => 'required | max: 1000'
+        ]);
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $user = User::find($request->user_id);
+        $extra = Extra::find($request->extra_id);
+
+        $user->extras()->attach($extra->id, ['answer'=>$request->answer]);
+
+        return response()->json($user->extras->find($extra->id)->pivot, 201);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(User $user, Extra $extra, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'answer' => 'required | max: 1000'
+        ]);
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $user->extras->find($extra->id)->pivot->answer = $request->answer;
+        $user->extras->find($extra->id)->pivot->save();
+
+        return response()->json($user->extras->find($extra->id)->pivot, 200);
+    }
 }

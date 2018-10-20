@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Models\Answer;
 
-class RetrieveAnswersTest extends TestCase
+class CreateAnswersTest extends TestCase
 {
     use DatabaseTransactions;
 
