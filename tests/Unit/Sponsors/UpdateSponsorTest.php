@@ -31,7 +31,7 @@ class UpdateSponsorTest extends TestCase
         $sponsor = Sponsor::first();
         $sponsor->name = null;
         $sponsor->image = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
-        $sponsor->enet_id = 0;
+        $sponsor->event_id = 0;
 
         $response = $this
             ->withHeaders(self::$headers)
