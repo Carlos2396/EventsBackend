@@ -1,17 +1,16 @@
 <?php
 
-namespace Tests\Unit\Users;
+namespace Tests\Unit\Extras;
 
 use Tests\TestCase;
 use Tests\Helper;
-use App\User;
 
-use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Extra;
 
-class DeleteUserTest extends TestCase
+class DeleteExtraTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -20,15 +19,15 @@ class DeleteUserTest extends TestCase
     ];
 
     /**
-     * Test fail delete as User does not exist
+     * Test fail delete as Extra does not exist
      */
-    public function testDeleteNonExistentUser()
+    public function testDeleteNonExistentExtra()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
+        $extra = Extra::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', -1));
+        $response = $this->withHeaders(self::$headers)->delete(route('extras.delete', $extra->id + 1));
         
         $response
             ->assertStatus(404)
@@ -38,16 +37,17 @@ class DeleteUserTest extends TestCase
     }
 
     /**
-     * Test successful delete User
+     * Test successful delete Extra
      */
-    public function testDeleteExistentUser()
+    public function testDeleteExistentExtra()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
+        $extra = Extra::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('extras.delete', $extra->id));
         
         $response->assertStatus(204);
     }
+    
 }

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\Extra;
+use App\Http\Controllers\Controller;
+use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 
 class ExtraController extends Controller
@@ -14,17 +16,8 @@ class ExtraController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $extras = Extra::with(Extra::relations)->get();
+        return response()->json($extras, 200);
     }
 
     /**
@@ -35,7 +28,15 @@ class ExtraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Extra::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $extra = Extra::create($request->all());
+
+        return response()->json($extra, 201);
     }
 
     /**
@@ -46,18 +47,8 @@ class ExtraController extends Controller
      */
     public function show(Extra $extra)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Extra  $extra
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Extra $extra)
-    {
-        //
+        $extra = $extra->with(Extra::relations)->get();
+        return response()->json($extra->first(), 200);
     }
 
     /**
@@ -69,7 +60,15 @@ class ExtraController extends Controller
      */
     public function update(Request $request, Extra $extra)
     {
-        //
+        $validator = Extra::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $extra->update($request->all());
+
+        return response()->json($extra, 200);
     }
 
     /**
@@ -80,6 +79,7 @@ class ExtraController extends Controller
      */
     public function destroy(Extra $extra)
     {
-        //
+        $extra->delete();
+        return response()->json(null, 204);
     }
 }
