@@ -16,7 +16,8 @@ class SponsorController extends Controller
      */
     public function index()
     {
-        return response()->json(Sponsor::all(), 200);
+        $sponsor = Sponsor::with(Sponsor::relations)->get();
+        return response()->json($sponsor, 200);
     }
 
     /**
@@ -46,7 +47,7 @@ class SponsorController extends Controller
      */
     public function show(Sponsor $sponsor)
     {
-        return response()->json($sponsor, 200);
+        return response()->json($sponsor->with(Sponsor::relations)->get()->first(), 200);
     }
 
     /**
