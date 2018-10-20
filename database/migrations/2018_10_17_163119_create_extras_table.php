@@ -29,7 +29,7 @@ class CreateExtrasTable extends Migration
             $table->string('answer');
             $table->timestamps();
             
-            $table->foreign('extra_id')->references('id')->on('extras')->onUpdate('cascade')->onDelte('cascade');
+            $table->foreign('extra_id')->references('id')->on('extras')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
