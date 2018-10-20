@@ -38,7 +38,7 @@ class ChangeUserPasswordTest extends TestCase
             ->withHeaders(self::$headers)
             ->json(
                 'PUT',
-                route('users.changePassword', $user->email),
+                route('users.changePassword', $user->id),
                 $data
             );
 
@@ -63,7 +63,7 @@ class ChangeUserPasswordTest extends TestCase
             ->withHeaders(self::$headers)
             ->json(
                 'PUT',
-                route('users.changePassword', $user->email),
+                route('users.changePassword', $user->id),
                 $data
             );
 

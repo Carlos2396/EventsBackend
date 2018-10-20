@@ -44,7 +44,7 @@ class RetrieveUserTest extends TestCase
         
         $user = User::first()->with(User::relations)->get()->first();
 
-        $response = $this->withHeaders(self::$headers)->get(route('users.show', $user->email));
+        $response = $this->withHeaders(self::$headers)->get(route('users.show', $user->id));
 
         $response
             ->assertStatus(200)
@@ -60,7 +60,7 @@ class RetrieveUserTest extends TestCase
         
         $user = User::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->get(route('users.show', $user->email.'.mx'));
+        $response = $this->withHeaders(self::$headers)->get(route('users.show', -1));
 
         $response
             ->assertStatus(404)
