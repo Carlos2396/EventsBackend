@@ -81,6 +81,15 @@ Route::group(['namespace' => 'API'], function() {
     Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
 
     /**
+     * Sponsor routes
+     */
+    Route::get('sponsors', 'SponsorController@index')->name('sponsors.list'); 
+    Route::post('sponsors', 'SponsorController@store')->name('sponsors.store');
+    Route::put('sponsors/{sponsor}', 'SponsorController@update')->name('sponsors.update');
+    Route::delete('sponsors/{sponsor}', 'SponsorController@destroy')->name('sponsors.delete');
+    Route::get('sponsors/{sponsor}', 'SponsorController@show')->name('sponsors.show');
+    
+  /*
      * Events routes
      */
     Route::get('events', 'EventController@index')->name('events.list'); 

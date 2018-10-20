@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Helpers\ResponseHelper;
 
 class SponsorController extends Controller
 {
@@ -14,17 +16,7 @@ class SponsorController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Sponsor::all(), 200);
     }
 
     /**
@@ -35,7 +27,15 @@ class SponsorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Sponsor::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $sponsor = Sponsor::create($request->all());
+
+        return response()->json($sponsor, 201);
     }
 
     /**
@@ -46,18 +46,7 @@ class SponsorController extends Controller
      */
     public function show(Sponsor $sponsor)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Sponsor  $sponsor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Sponsor $sponsor)
-    {
-        //
+        return response()->json($sponsor, 200);
     }
 
     /**
@@ -69,7 +58,15 @@ class SponsorController extends Controller
      */
     public function update(Request $request, Sponsor $sponsor)
     {
-        //
+        $validator = Sponsor::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $sponsor->update($request->all());
+
+        return response()->json($sponsor, 200);
     }
 
     /**
@@ -80,6 +77,7 @@ class SponsorController extends Controller
      */
     public function destroy(Sponsor $sponsor)
     {
-        //
+        $sponsor->delete();
+        return response()->json(null, 204);
     }
 }
