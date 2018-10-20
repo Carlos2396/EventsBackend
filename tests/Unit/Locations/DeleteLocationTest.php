@@ -41,7 +41,7 @@ class DeleteLocationTest extends TestCase
 
         $location = Location::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('locations.delete', $location->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('locations.delete', $location->id + 1));
         
         $response
             ->assertStatus(404)

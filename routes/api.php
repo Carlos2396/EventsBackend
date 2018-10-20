@@ -72,23 +72,6 @@ Route::group(['namespace' => 'API'], function() {
     });
 
 
-    Route::group(['middleware' => 'auth:api'], function() {
-        /**
-         * Ticket routes
-         */
-        Route::post('tickets', 'TicketController@store')->name('tickets.store');
-        Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
-
-        /**
-         * Location routes
-         */
-        Route::get('locations', 'LocationController@index')->name('locations.list'); 
-        Route::post('locations', 'LocationController@store')->name('locations.store');
-        Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
-        Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
-        Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
-    });
-
     /**
      * Articles routes
      */
@@ -107,7 +90,23 @@ Route::group(['namespace' => 'API'], function() {
     Route::delete('sponsors/{sponsor}', 'SponsorController@destroy')->name('sponsors.delete');
     Route::get('sponsors/{sponsor}', 'SponsorController@show')->name('sponsors.show');
     
-  /*
+
+     /**
+     * Ticket routes
+     */
+    Route::post('tickets', 'TicketController@store')->name('tickets.store');
+    Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
+
+    /**
+     * Location routes
+     */
+    Route::get('locations', 'LocationController@index')->name('locations.list'); 
+    Route::post('locations', 'LocationController@store')->name('locations.store');
+    Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
+    Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
+    Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
+
+    /*
      * Events routes
      */
     Route::get('events', 'EventController@index')->name('events.list'); 

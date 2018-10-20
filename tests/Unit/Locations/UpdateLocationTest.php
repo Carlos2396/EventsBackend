@@ -51,7 +51,7 @@ class UpdateLocationTest extends TestCase
     {
         $location = Location::all()->last();
         $location->name = 'Nueva locación';
-        $location->address = 'Calle siempre viva ';
+        $location->address = 'Calle siempre viva';
 
         $response = $this
             ->withHeaders(self::$headers)

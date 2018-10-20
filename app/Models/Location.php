@@ -11,7 +11,7 @@ class Location extends Model
 
     public static function validate($data) {
         return Validator::make($data, [
-            'event_id' => 'present|required|exists:event,id',
+            'event_id' => 'present|required|exists:events,id',
             'name' => 'present|required|string',
             'address'=>'present|required',
             'lat' => 'present|required|numeric|max:90|min:-90',
