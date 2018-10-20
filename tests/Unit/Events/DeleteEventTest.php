@@ -25,7 +25,7 @@ class DeleteEventTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $response = $this->withHeaders(self::$headers)->delete(route('events.delete', 0));
+        $response = $this->withHeaders(self::$headers)->delete(route('events.delete', -1));
         
         $response
             ->assertStatus(404)
