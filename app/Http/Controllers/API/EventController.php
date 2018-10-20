@@ -15,8 +15,9 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return response()->json(Event::all(), 200);
+    {      
+        $events = Event::with(Event::relations)->get();
+        return response()->json($events, 200);
     }
 
     /**
@@ -42,8 +43,8 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Event $event)
-    {
-        return response()->json($event, 200);
+    {   
+        return response()->json($event->with(Event::relations)->get()->first(), 200);
     }
 
     /**

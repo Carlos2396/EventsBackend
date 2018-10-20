@@ -9,6 +9,8 @@ class Event extends Model
 {
     protected $fillable = ['name', 'starts', 'end', 'registration_start', 'registration_end', 'image', 'description', 'organizer_id', 'guest_capacity', 'event_type'];
 
+    const relations = ['locations', 'sponsors', 'organizer', 'extras', 'attendees'];
+
     public function locations(){
         return $this->hasMany('App\Models\Location');
     }

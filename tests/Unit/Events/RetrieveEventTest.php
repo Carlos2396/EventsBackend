@@ -32,7 +32,7 @@ class RetrieveEventTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($events->toArray());
+            ->assertJson($events->toArray());
     }
 
     /**
@@ -48,7 +48,7 @@ class RetrieveEventTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($event->toArray());
+            ->assertJson($event->toArray());
     }
 
     /**
