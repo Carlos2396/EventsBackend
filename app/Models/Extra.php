@@ -8,6 +8,7 @@ use Validator;
 class Extra extends Model
 {
     protected $fillable = ['text', 'event_id'];
+    const relations = ['users', 'event'];
 
     public static function validate($data) {
         return Validator::make($data, [
@@ -21,6 +22,6 @@ class Extra extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\Models\User', 'answers')->withPivot('answer');
+        return $this->belongsToMany('App\User', 'answers')->withPivot('answer');
     }
 }

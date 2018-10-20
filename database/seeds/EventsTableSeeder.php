@@ -15,8 +15,8 @@ class EventsTableSeeder extends Seeder
     {
         Event::create([
             'name' => 'Hackathon 2022',
-            'starts' => Carbon::now()->addWeeks(1),
-            'ends' => Carbon::now()->addWeeks(2),
+            'starts' => Carbon::now()->addWeeks(2),
+            'end' => Carbon::now()->addWeeks(3),
             'registration_start' => Carbon::now(),
             'registration_end' => Carbon::now()->addWeeks(1),
             'image' => null,

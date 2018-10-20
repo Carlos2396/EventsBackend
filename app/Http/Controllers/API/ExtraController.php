@@ -16,7 +16,8 @@ class ExtraController extends Controller
      */
     public function index()
     {
-        return response()->json(Extra::all(), 200);
+        $extras = Extra::with(Extra::relations)->get();
+        return response()->json($extras, 200);
     }
 
     /**
@@ -46,7 +47,8 @@ class ExtraController extends Controller
      */
     public function show(Extra $extra)
     {
-        return response()->json($extra, 200);
+        $extra = $extra->with(Extra::relations)->get();
+        return response()->json($extra->first(), 200);
     }
 
     /**
