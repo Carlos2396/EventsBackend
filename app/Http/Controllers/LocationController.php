@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Location::all(), 200);
     }
 
     /**
@@ -35,7 +36,15 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Location::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $location = Location::create($request->all());
+
+        return response()->json($location, 201);
     }
 
     /**
@@ -46,7 +55,7 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        //
+        return response()->json($location, 200);
     }
 
     /**
@@ -69,7 +78,15 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        //
+        $validator = Location::validate($request->all());
+
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $location->update($request->all());
+
+        return response()->json($location, 200);
     }
 
     /**
@@ -80,6 +97,7 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+        return response()->json(null, 204);
     }
 }

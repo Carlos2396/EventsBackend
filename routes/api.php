@@ -27,6 +27,14 @@ Route::group(['namespace' => 'API'], function() {
         });
     });
 
+    /**
+     * Location routes
+     */
+    Route::get('locations', 'LocationController@index')->name('locations.list'); 
+    Route::post('locations', 'LocationController@store')->name('locations.store');
+    Route::put('locations/{article}', 'LocationController@update')->name('locations.update');
+    Route::delete('locations/{article}', 'LocationController@destroy')->name('locations.delete');
+    Route::get('locations/{article}', 'LocationController@show')->name('locations.show');
 
     /**
      * Articles routes
