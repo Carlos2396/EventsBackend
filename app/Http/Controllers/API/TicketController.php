@@ -102,6 +102,6 @@ class TicketController extends Controller
     {
         $user->events()->detach($event->id);
 
-        return response()->json(null, 204);
+        return response()->json($user, 204);
     }
 }

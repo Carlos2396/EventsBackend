@@ -29,7 +29,7 @@ class DeleteTicketTest extends TestCase
         $user = User::first();
         $event = Event::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', $ticket->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', [$user->id, $event->id]));
         
         $response->assertStatus(204);
     }
@@ -41,9 +41,10 @@ class DeleteTicketTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $ticket = Ticket::all()->last();
+        $user = User::first();
+        $event = Event::all()->last();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', $article->id + 1));
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', [$user->id, $event->id + 1]));
         
         $response
             ->assertStatus(404)
@@ -63,12 +64,12 @@ class DeleteTicketTest extends TestCase
         $user = User::first();
         $event = Event::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', ));
+        $response = $this->withHeaders(self::$headers)->delete(route('tickets.delete', ['rer', 1]));
         
         $response
             ->assertStatus(404)
             ->assertExactJson([
-                'id' => 'The id must be a number.'
-            ]);
+                'message' => 'Resource not found'
+        ]);
     }
 }
