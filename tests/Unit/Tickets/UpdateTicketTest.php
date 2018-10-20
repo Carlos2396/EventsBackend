@@ -50,15 +50,14 @@ class UpdateticketTest extends TestCase
         parent::withoutMiddleware(Helper::$middlewares);
 
         $ticket = Ticket::first();
-        $ticket->title = null;
-        $article->body = null;
+        $ticket->code = null;
         
         $response = $this
             ->withHeaders(self::$headers)
             ->json(
                 'PUT',
-                route('articles.update', $article->id),
-                $article->toArray()
+                route('tickets.update', $ticket->id),
+                $ticket->toArray()
             );
 
         $response
@@ -66,9 +65,61 @@ class UpdateticketTest extends TestCase
             ->assertExactJson([
                 'message' => 'Failed data validation',
                 'errors' => [
-                    'title' => ['The title field is required.'],
-                    'body' => ['The body field is required.']
+                    'code' => ['The code field is required.'],
                 ]
+            ]);
+    }
+
+    /**
+     * Test update fail with wrong type field
+     */
+    public function testUpdateWrongTypeField()
+    {
+        parent::withoutMiddleware(Helper::$middlewares);
+
+        $ticket = Ticket::first();
+        $ticket->code = 123456;
+        
+        $response = $this
+            ->withHeaders(self::$headers)
+            ->json(
+                'PUT',
+                route('tickets.update', $ticket->id),
+                $ticket->toArray()
+            );
+
+        $response
+            ->assertStatus(400)
+            ->assertExactJson([
+                'message' => 'Failed data validation',
+                'errors' => [
+                    'code' => ['The code must be a string.']
+                ]
+            ]);
+    }
+
+    /**
+     * Test update fail with non-existing Ticket
+     */
+    public function testUpdateNonExistingTicket() 
+    {
+        parent::withoutMiddleware(Helper::$middlewares);
+
+        $ticket = Ticket::all()->last();
+        $ticket->code = "gjbnejgrebs";
+
+        $response = $this
+            ->withHeaders(self::$headers)
+            ->json(
+                'PUT',
+                route('tickets.update', $ticket->id + 1),
+                $ticket->toArray()
+            );
+
+        $response
+            ->assertStatus(404)
+            ->assertExactJson([
+                'message' => 'Resource not found'
             ]);
     }
 }
