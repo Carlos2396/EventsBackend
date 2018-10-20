@@ -36,6 +36,15 @@ Route::group(['namespace' => 'API'], function() {
     Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
     Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
     Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
+
+    /**
+     * Events routes
+     */
+    Route::get('events', 'EventController@index')->name('events.list'); 
+    Route::post('events', 'EventController@store')->name('events.store');
+    Route::put('events/{event}', 'EventController@update')->name('events.update');
+    Route::delete('events/{article}', 'EventController@destroy')->name('events.delete');
+    Route::get('events/{article}', 'EventController@show')->name('events.show');
 });
 
 /**
