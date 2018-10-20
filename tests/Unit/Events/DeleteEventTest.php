@@ -1,17 +1,16 @@
 <?php
 
-namespace Tests\Unit\Users;
+namespace Tests\Unit\Events;
 
 use Tests\TestCase;
 use Tests\Helper;
-use App\User;
 
-use App\Models\Article;
+use App\Models\Event;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteUserTest extends TestCase
+class DeleteEventTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -20,15 +19,13 @@ class DeleteUserTest extends TestCase
     ];
 
     /**
-     * Test fail delete as User does not exist
+     * Test fail delete as Event does not exist
      */
-    public function testDeleteNonExistentUser()
+    public function testDeleteNonExistentEvent()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
-
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', -1));
+        $response = $this->withHeaders(self::$headers)->delete(route('events.delete', -1));
         
         $response
             ->assertStatus(404)
@@ -38,15 +35,15 @@ class DeleteUserTest extends TestCase
     }
 
     /**
-     * Test successful delete User
+     * Test successful delete Event
      */
-    public function testDeleteExistentUser()
+    public function testDeleteExistentArticle()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
+        $event = Event::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('events.delete', $event->id));
         
         $response->assertStatus(204);
     }

@@ -1,17 +1,16 @@
 <?php
 
-namespace Tests\Unit\Users;
+namespace Tests\Unit\Sponsors;
 
 use Tests\TestCase;
 use Tests\Helper;
-use App\User;
 
-use App\Models\Article;
+use App\Models\Sponsor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class DeleteUserTest extends TestCase
+class DeleteSponsorTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -20,15 +19,13 @@ class DeleteUserTest extends TestCase
     ];
 
     /**
-     * Test fail delete as User does not exist
+     * Test fail delete a sponsor does not exist
      */
-    public function testDeleteNonExistentUser()
+    public function testDeleteNonExistentSponsor()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
-
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', -1));
+        $response = $this->withHeaders(self::$headers)->delete(route('sponsors.delete', 0));
         
         $response
             ->assertStatus(404)
@@ -38,15 +35,15 @@ class DeleteUserTest extends TestCase
     }
 
     /**
-     * Test successful delete User
+     * Test successful delete Sponsor
      */
-    public function testDeleteExistentUser()
+    public function testDeleteExistentSponsor()
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $user = User::all()->last();
+        $sponsor = Sponsor::first();
 
-        $response = $this->withHeaders(self::$headers)->delete(route('users.delete', $user->id));
+        $response = $this->withHeaders(self::$headers)->delete(route('sponsors.delete', $sponsor->id));
         
         $response->assertStatus(204);
     }

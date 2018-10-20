@@ -29,9 +29,10 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['middleware' => 'auth:api'], function() {
         
         // User routes
-        Route::put('users/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
-        Route::put('users', 'UserController@updateLogged')->name('users.logged.update');
-        Route::delete('users', 'UserController@destroyLogged')->name('users.logged.delete');
+        Route::get('user', 'UserController@loggedUser')->name('users.logged');
+        Route::put('user/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
+        Route::put('user', 'UserController@updateLogged')->name('users.logged.update');
+        Route::delete('user', 'UserController@destroyLogged')->name('users.logged.delete');
     });
 
     /**
@@ -78,6 +79,24 @@ Route::group(['namespace' => 'API'], function() {
     Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
     Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
     Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
+
+    /**
+     * Sponsor routes
+     */
+    Route::get('sponsors', 'SponsorController@index')->name('sponsors.list'); 
+    Route::post('sponsors', 'SponsorController@store')->name('sponsors.store');
+    Route::put('sponsors/{sponsor}', 'SponsorController@update')->name('sponsors.update');
+    Route::delete('sponsors/{sponsor}', 'SponsorController@destroy')->name('sponsors.delete');
+    Route::get('sponsors/{sponsor}', 'SponsorController@show')->name('sponsors.show');
+    
+  /*
+     * Events routes
+     */
+    Route::get('events', 'EventController@index')->name('events.list'); 
+    Route::post('events', 'EventController@store')->name('events.store');
+    Route::put('events/{event}', 'EventController@update')->name('events.update');
+    Route::delete('events/{event}', 'EventController@destroy')->name('events.delete');
+    Route::get('events/{event}', 'EventController@show')->name('events.show');
 });
 
 /**

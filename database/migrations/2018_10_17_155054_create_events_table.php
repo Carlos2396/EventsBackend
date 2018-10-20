@@ -18,11 +18,11 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->timestamp('starts')->default(Carbon::now());
-            $table->timestamp('ends')->default(Carbon::now());
+            $table->timestamp('end')->default(Carbon::now());
             $table->timestamp('registration_start')->default(Carbon::now());
             $table->timestamp('registration_end')->default(Carbon::now());
             $table->string('image')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('organizer_id')->unsigned();
             $table->integer('guest_capacity');
             $table->enum('event_type', ['type1', 'type2', 'type3']);
@@ -38,7 +38,7 @@ class CreateEventsTable extends Migration
             $table->string('code');
             $table->timestamps();
 
-            $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelte('cascade');
+            $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
