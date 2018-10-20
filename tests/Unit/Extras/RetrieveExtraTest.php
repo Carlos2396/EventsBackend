@@ -32,7 +32,7 @@ class RetrieveExtraTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($extras->toArray());
+            ->assertJson($extras->toArray());
     }
 
     /**
@@ -48,7 +48,7 @@ class RetrieveExtraTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($extra->toArray());
+            ->assertJson($extra->toArray());
     }
 
     /**

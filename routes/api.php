@@ -57,7 +57,7 @@ Route::group(['namespace' => 'API'], function() {
     Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
     Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
     Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
-    
+
     /**
      * Authentication routes
      */
