@@ -3,9 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Validator;
 
 class Location extends Model
 {
+    protected $fillable = ['event_id', 'name', 'address', 'lat', 'lng'];
+
+    public static function validate($data) {
+        return Validator::make($data, [
+            'event_id' => 'required',
+            'name' => 'string',
+            'address'=>'required|present',
+            'lat' => 'numeric',
+            'lng' => 'numeric'
+        ]);
+    }
+
     public function events(){
         return $this->belongsTo('App\Models\Event');
     }
