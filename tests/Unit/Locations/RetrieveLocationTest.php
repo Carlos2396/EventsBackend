@@ -32,7 +32,7 @@ class RetrieveLocationTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($locations->toArray());
+            ->assertJson($locations->toArray());
     }
 
     /**
@@ -48,7 +48,7 @@ class RetrieveLocationTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson($location->toArray());
+            ->assertJson($location->toArray());
     }
 
     /**

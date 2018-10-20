@@ -16,17 +16,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        return response()->json(Location::all(), 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $locations = Location::with(Location::relations)->get();
+        return response()->json($locations, 200);
     }
 
     /**
@@ -56,18 +47,8 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        return response()->json($location, 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Location $location)
-    {
-        //
+        $location = $location->with(Location::relations)->get();
+        return response()->json($location->first(), 200);
     }
 
     /**

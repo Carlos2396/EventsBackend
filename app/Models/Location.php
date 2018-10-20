@@ -7,6 +7,7 @@ use Validator;
 
 class Location extends Model
 {
+    const relations = ['event'];
     protected $fillable = ['event_id', 'name', 'address', 'lat', 'lng'];
 
     public static function validate($data) {
@@ -19,7 +20,7 @@ class Location extends Model
         ]);
     }
 
-    public function events(){
+    public function event(){
         return $this->belongsTo('App\Models\Event');
     }
 }
