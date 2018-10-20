@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Carbon\Carbon;
 use Validator;
 
 class AuthController extends Controller
@@ -14,11 +15,14 @@ class AuthController extends Controller
 
         if(Auth::attempt($request->only('email', 'password'))) { 
             $user = Auth::user();
-            $token =  $user->createToken('MyApp')->accessToken;
-             
+            $token =  $user->createToken('MyApp');
+            $tokenStr = $token->accessToken; 
+            $expiration = $token->token->expires_at->diffInSeconds(Carbon::now());
+
             return response()->json([
                 'user' => $user,
-                'token' => $token
+                'token' => $tokenStr,
+                'expiration_time' => $expiration
             ], 200); 
         } 
         else{ 

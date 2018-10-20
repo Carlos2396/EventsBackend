@@ -19,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json(User::all(), 200);
+        $users = User::with(User::relations)->get();
+        return response()->json($users, 200);
     }
 
     /**
@@ -30,7 +31,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user, 200);
+        return response()->json($user->with(User::relations)->get()->first(), 200);
     }
 
     /**

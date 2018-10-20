@@ -26,7 +26,7 @@ class RetrieveUserTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
 
-        $users = User::all();
+        $users = User::with(User::relations)->get();
 
         $response = $this->withHeaders(self::$headers)->get(route('users.list'));
 
@@ -42,7 +42,7 @@ class RetrieveUserTest extends TestCase
     {
         parent::withoutMiddleware(Helper::$middlewares);
         
-        $user = User::first();
+        $user = User::first()->with(User::relations)->get()->first();
 
         $response = $this->withHeaders(self::$headers)->get(route('users.show', $user->email));
 
