@@ -32,9 +32,9 @@ Route::group(['namespace' => 'API'], function() {
      */
     Route::get('locations', 'LocationController@index')->name('locations.list'); 
     Route::post('locations', 'LocationController@store')->name('locations.store');
-    Route::put('locations/{article}', 'LocationController@update')->name('locations.update');
-    Route::delete('locations/{article}', 'LocationController@destroy')->name('locations.delete');
-    Route::get('locations/{article}', 'LocationController@show')->name('locations.show');
+    Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
+    Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
+    Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
 
     /**
      * Articles routes

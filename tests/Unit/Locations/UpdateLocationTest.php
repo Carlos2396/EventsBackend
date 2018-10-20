@@ -27,8 +27,8 @@ class UpdateLocationTest extends TestCase
         parent::withoutMiddleware(Helper::$middlewares);
 
         $location = Location::first();
-        $location->name = 'Nueva locación';
-        $location->address = 'Calle siempre viva ';
+        $location->name = 'Nueva locacion';
+        $location->address = 'Calle siempre viva';
         
         $response = $this
             ->withHeaders(self::$headers)
@@ -92,7 +92,7 @@ class UpdateLocationTest extends TestCase
             ->assertJson([
                 'message' => 'Failed data validation',
                 'errors' => [
-                    'event_id' => ['The event_id field is required.'],
+                    'event_id' => ['The event id field is required.'],
                 ]
             ]);
     }
@@ -105,8 +105,8 @@ class UpdateLocationTest extends TestCase
         parent::withoutMiddleware(Helper::$middlewares);
 
         $location = Location::first();
-        $location->lat = '4556';
-        $location->lng = '5440.4';
+        $location->lat = '4p556';
+        $location->lng = '5=440.4';
 
         
         $response = $this
