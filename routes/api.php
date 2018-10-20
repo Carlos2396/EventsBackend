@@ -27,14 +27,26 @@ Route::group(['namespace' => 'API'], function() {
         });
     });
 
-    /**
-     * Location routes
-     */
-    Route::get('locations', 'LocationController@index')->name('locations.list'); 
-    Route::post('locations', 'LocationController@store')->name('locations.store');
-    Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
-    Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
-    Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
+
+    Route::group(['middleware' => 'auth:api'], function() {
+        /**
+         * Ticket routes
+         */
+        Route::get('tickets', 'TicketController@index')->name('tickets.list'); 
+        Route::post('tickets', 'TicketController@store')->name('tickets.store');
+        Route::put('tickets/{ticket}', 'TicketController@update')->name('tickets.update');
+        Route::delete('tickets/{ticket}', 'TicketController@destroy')->name('tickets.delete');
+        Route::get('tickets/{ticket}', 'TicketController@show')->name('tickets.show');
+
+        /**
+         * Location routes
+         */
+        Route::get('locations', 'LocationController@index')->name('locations.list'); 
+        Route::post('locations', 'LocationController@store')->name('locations.store');
+        Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
+        Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
+        Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
+    });
 
     /**
      * Articles routes
