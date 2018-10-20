@@ -15,6 +15,8 @@ class User extends Authenticatable
 
     protected $guard_name = 'api';
 
+    const relations = ['organizedEvents', 'extras', 'events'];
+
     /**
      * Get the route key for the model.
      *
