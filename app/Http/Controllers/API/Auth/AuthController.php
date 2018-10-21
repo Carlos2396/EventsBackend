@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\ResponseHelper;
 use App\User;
 use Carbon\Carbon;
 use Validator;
@@ -12,6 +13,14 @@ use Validator;
 class AuthController extends Controller
 {
     public function login(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+        
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
 
         if(Auth::attempt($request->only('email', 'password'))) { 
             $user = Auth::user();
