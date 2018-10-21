@@ -174,6 +174,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        \Neomerx\CorsIlluminate\Providers\LaravelServiceProvider::class,
     ],
 
     /*

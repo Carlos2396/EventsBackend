@@ -18,3 +18,7 @@ To run the test, first update the .env.testing file and execute
 
 Then run
     composer test
+
+for CORS configuration
+    sudo apt install php7.2-bcmath
+    composer require neomerx/cors-illuminate
