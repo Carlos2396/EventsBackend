@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json($user->with(User::relations)->get()->first(), 200);
+        return response()->json(User::with(User::relations)->get()->find($user->id), 200);
     }
 
     /**

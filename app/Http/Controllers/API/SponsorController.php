@@ -47,7 +47,7 @@ class SponsorController extends Controller
      */
     public function show(Sponsor $sponsor)
     {
-        return response()->json($sponsor->with(Sponsor::relations)->get()->first(), 200);
+        return response()->json(Sponsor::with(Sponsor::relations)->get()->find($sponsor->id), 200);
     }
 
     /**

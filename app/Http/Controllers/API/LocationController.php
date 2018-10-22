@@ -47,8 +47,8 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        $location = $location->with(Location::relations)->get();
-        return response()->json($location->first(), 200);
+        $location = Location::with(Location::relations)->get()->find($location->id);
+        return response()->json($location, 200);
     }
 
     /**

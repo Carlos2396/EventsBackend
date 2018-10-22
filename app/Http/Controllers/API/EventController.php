@@ -44,7 +44,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {   
-        return response()->json($event->with(Event::relations)->get()->first(), 200);
+        return response()->json(Event::with(Event::relations)->get()->find($event->id), 200);
     }
 
     /**

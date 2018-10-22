@@ -47,8 +47,8 @@ class ExtraController extends Controller
      */
     public function show(Extra $extra)
     {
-        $extra = $extra->with(Extra::relations)->get();
-        return response()->json($extra->first(), 200);
+        $extra = Extra::with(Extra::relations)->get()->find($extra->id);
+        return response()->json($extra, 200);
     }
 
     /**
