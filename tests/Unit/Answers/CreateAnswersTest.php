@@ -60,7 +60,7 @@ class CreateAnswersTest extends TestCase
 
         $answer = [
             'answer' => 'Valid answer!',
-            'user_id' => 1,
+            'user_id' => 0,
             'extra_id' => 1
         ];
         
@@ -78,7 +78,7 @@ class CreateAnswersTest extends TestCase
             ->assertExactJson([
                 'message' => 'Failed data validation',
                 'errors' => [
-                    'user_id' => ['The user is not registered in this event.']
+                    'user_id' => ['The selected user id is invalid.']
                 ]
             ]);
     }

@@ -35,12 +35,6 @@ class AnswerController extends Controller
         $user = User::find($request->user_id);
         $extra = Extra::find($request->extra_id);
 
-        if($user->events->find($extra->event_id) == null) {
-            return ResponseHelper::validationErrorResponse([
-                'user_id' => ['The user is not registered in this event.']
-            ]);
-        }
-
         $user->extras()->attach($extra->id, ['answer'=>$request->answer]);
 
         return response()->json($user->extras->find($extra->id)->pivot, 201);
@@ -60,6 +54,12 @@ class AnswerController extends Controller
 
         if($validator->fails()) {
             return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        if($user->events->find($extra->event_id) == null) {
+            return ResponseHelper::validationErrorResponse([
+                'user_id' => ['The user is not registered in this event.']
+            ]);
         }
 
         $user->extras->find($extra->id)->pivot->answer = $request->answer;

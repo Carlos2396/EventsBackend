@@ -22,13 +22,5 @@ class TicketsTableSeeder extends Seeder
             'created_at'=> Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-
-        DB::table('tickets')->insert([
-            'event_id' => 1,
-            'user_id' => 3,
-            'code' => Uuid::uuid1(),
-            'created_at'=> Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
     }
 }
