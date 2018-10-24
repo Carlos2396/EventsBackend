@@ -16,6 +16,18 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['namespace' => 'API'], function() {
+
+    /**
+     * Authentication routes
+     */
+    Route::group(['namespace' => 'Auth'], function() {
+        Route::post('login', 'AuthController@login')->name('login');
+    
+        Route::group(['middleware' => 'auth:api'], function() { 
+            Route::get('logout', 'AuthController@logout')->name('logout');
+            Route::get('logged', 'AuthController@loggedUSer')->name('logged');
+        });
+    });
     
     /**
      * Unprotected routes
@@ -28,11 +40,68 @@ Route::group(['namespace' => 'API'], function() {
      */
     Route::group(['middleware' => 'auth:api'], function() {
         
-        // User routes
-        Route::get('user', 'UserController@loggedUser')->name('users.logged');
+        Route::get('user', 'Auth\AuthController@loggedUser')->name('users.logged');
         Route::put('user/changePassword', 'UserController@changeLoggedPassword')->name('users.logged.changePassword');
         Route::put('user', 'UserController@updateLogged')->name('users.logged.update');
         Route::delete('user', 'UserController@destroyLogged')->name('users.logged.delete');
+
+        /**
+         * Extras routes
+         */
+        Route::get('extras', 'ExtraController@index')->name('extras.list'); 
+        Route::post('extras', 'ExtraController@store')->name('extras.store');
+        Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
+        Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
+        Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
+
+        /**
+         * Answers routes
+         */
+        Route::post('answers', 'AnswerController@store')->name('answers.store');
+        Route::put('answers/{answer}', 'AnswerController@update')->name('answers.update');
+
+        /**
+         * Articles routes
+         */
+        Route::get('articles', 'ArticleController@index')->name('articles.list'); 
+        Route::post('articles', 'ArticleController@store')->name('articles.store');
+        Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
+        Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
+        Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
+
+        /**
+         * Sponsor routes
+         */
+        Route::get('sponsors', 'SponsorController@index')->name('sponsors.list'); 
+        Route::post('sponsors', 'SponsorController@store')->name('sponsors.store');
+        Route::put('sponsors/{sponsor}', 'SponsorController@update')->name('sponsors.update');
+        Route::delete('sponsors/{sponsor}', 'SponsorController@destroy')->name('sponsors.delete');
+        Route::get('sponsors/{sponsor}', 'SponsorController@show')->name('sponsors.show');
+        
+
+        /**
+         * Ticket routes
+         */
+        Route::post('tickets', 'TicketController@store')->name('tickets.store');
+        Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
+
+        /**
+         * Location routes
+         */
+        Route::get('locations', 'LocationController@index')->name('locations.list'); 
+        Route::post('locations', 'LocationController@store')->name('locations.store');
+        Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
+        Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
+        Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
+
+        /*
+        * Events routes
+        */
+        Route::get('events', 'EventController@index')->name('events.list'); 
+        Route::post('events', 'EventController@store')->name('events.store');
+        Route::put('events/{event}', 'EventController@update')->name('events.update');
+        Route::delete('events/{event}', 'EventController@destroy')->name('events.delete');
+        Route::get('events/{event}', 'EventController@show')->name('events.show');
     });
 
     /**
@@ -49,78 +118,6 @@ Route::group(['namespace' => 'API'], function() {
         Route::put('users/{user}', 'UserController@update')->name('users.update');
         Route::delete('users/{user}', 'UserController@destroy')->name('users.delete');
     });
-
-    /**
-     * Extras routes
-     */
-    Route::get('extras', 'ExtraController@index')->name('extras.list'); 
-    Route::post('extras', 'ExtraController@store')->name('extras.store');
-    Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
-    Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
-    Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
-
-    /**
-     * Answers routes
-     */
-    Route::post('answers', 'AnswerController@store')->name('answers.store');
-    Route::put('answers/{answer}', 'AnswerController@update')->name('answers.update');
-
-
-    /**
-     * Authentication routes
-     */
-    Route::group(['namespace' => 'Auth'], function() {
-        Route::post('login', 'AuthController@login')->name('login');
-    
-        Route::group(['middleware' => 'auth:api'], function() { 
-            Route::get('logout', 'AuthController@logout')->name('logout');
-            Route::get('logged', 'AuthController@loggedUSer')->name('logged');
-        });
-    });
-
-
-    /**
-     * Articles routes
-     */
-    Route::get('articles', 'ArticleController@index')->name('articles.list'); 
-    Route::post('articles', 'ArticleController@store')->name('articles.store');
-    Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
-    Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
-    Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
-
-    /**
-     * Sponsor routes
-     */
-    Route::get('sponsors', 'SponsorController@index')->name('sponsors.list'); 
-    Route::post('sponsors', 'SponsorController@store')->name('sponsors.store');
-    Route::put('sponsors/{sponsor}', 'SponsorController@update')->name('sponsors.update');
-    Route::delete('sponsors/{sponsor}', 'SponsorController@destroy')->name('sponsors.delete');
-    Route::get('sponsors/{sponsor}', 'SponsorController@show')->name('sponsors.show');
-    
-
-     /**
-     * Ticket routes
-     */
-    Route::post('tickets', 'TicketController@store')->name('tickets.store');
-    Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
-
-    /**
-     * Location routes
-     */
-    Route::get('locations', 'LocationController@index')->name('locations.list'); 
-    Route::post('locations', 'LocationController@store')->name('locations.store');
-    Route::put('locations/{location}', 'LocationController@update')->name('locations.update');
-    Route::delete('locations/{location}', 'LocationController@destroy')->name('locations.delete');
-    Route::get('locations/{location}', 'LocationController@show')->name('locations.show');
-
-    /*
-     * Events routes
-     */
-    Route::get('events', 'EventController@index')->name('events.list'); 
-    Route::post('events', 'EventController@store')->name('events.store');
-    Route::put('events/{event}', 'EventController@update')->name('events.update');
-    Route::delete('events/{event}', 'EventController@destroy')->name('events.delete');
-    Route::get('events/{event}', 'EventController@show')->name('events.show');
 });
 
 /**
