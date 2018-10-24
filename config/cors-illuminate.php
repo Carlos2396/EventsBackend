@@ -73,9 +73,10 @@ return [
         'x-custom-request-header'  => true,
         'accept'  => true,
         'authorization'  => true,
+        'origin' => true,
         
         // Enabling all headers might be insecure. Not recommended to use in production.
-        S::VALUE_ALLOW_ALL_HEADERS => null,
+        S::VALUE_ALLOW_ALL_HEADERS => true,
     ],
 
     /**
