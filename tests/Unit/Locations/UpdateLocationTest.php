@@ -49,6 +49,7 @@ class UpdateLocationTest extends TestCase
      */
     public function testUpdateNonExisting() 
     {
+        parent::withoutMiddleware(Helper::$middlewares);
         $location = Location::all()->last();
         $location->name = 'Nueva locación';
         $location->address = 'Calle siempre viva';
@@ -57,7 +58,7 @@ class UpdateLocationTest extends TestCase
             ->withHeaders(self::$headers)
             ->json(
                 'PUT',
-                route('locations.update', $location->id + 1),
+                route('locations.update', -1),
                 $location->toArray()
             );
 
