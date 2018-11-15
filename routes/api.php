@@ -22,6 +22,7 @@ Route::group(['namespace' => 'API'], function() {
      */
     Route::group(['namespace' => 'Auth'], function() {
         Route::post('login', 'AuthController@login')->name('login');
+        Route::get('confirm/{uuid}', 'AuthController@confirmAccount')->name('confirm');
     
         Route::group(['middleware' => 'auth:api'], function() { 
             Route::get('logout', 'AuthController@logout')->name('logout');
@@ -33,7 +34,6 @@ Route::group(['namespace' => 'API'], function() {
      * Unprotected routes
      */
     Route::post('users', 'UserController@store')->name('users.register');
-
     
     /**
      * Auth protected routes
