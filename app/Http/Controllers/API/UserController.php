@@ -58,7 +58,7 @@ class UserController extends Controller
 
         $user->assignRole('user');
 
-        dd(Mail::to($user)->send(new EmailConfirmation($user)));
+        Mail::to($user)->send(new EmailConfirmation($user));
 
         return response()->json($user, 201);
     }
