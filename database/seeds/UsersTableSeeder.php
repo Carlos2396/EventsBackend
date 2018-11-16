@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use Ramsey\Uuid\Uuid;
+use Carbon\Carbon;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -28,6 +30,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '2221456487',
             'email' => 'admin@test.com',
             'password' => $password,
+            'confirmed_at' => Carbon::now()
         ]);
         $admin->assignRole('admin');
 
@@ -40,6 +43,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '2221456488',
             'email' => 'user@test.com',
             'password' => $password,
+            'confirmed_at' => Carbon::now()
         ]);
         $user->assignRole('user');
 
@@ -52,6 +56,7 @@ class UsersTableSeeder extends Seeder
             'phone' => '2221456488',
             'email' => 'user2@test.com',
             'password' => $password,
+            'confirmed_at' => Carbon::now()
         ]);
         $user2->assignRole('user');
     }
