@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\EmailConfirmation;
+use App\Notifications\EmailConfirmationRequest;
 use App\Helpers\ResponseHelper;
 use Carbon\Carbon;
 use Validator;
@@ -63,7 +63,7 @@ class AccountConfirmationController extends Controller
             return response()->json(['message' => 'Account already confirmed.'], 400);
         }
 
-        Mail::to($user)->send(new EmailConfirmation($user));
+        $user->notify(new EmailConfirmationRequest($user->confirmation_code));
 
         return response()->json(null, 204);
     }

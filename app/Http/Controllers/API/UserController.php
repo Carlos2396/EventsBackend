@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\EmailConfirmation;
+use App\Notifications\EmailConfirmationRequest;
 use App\Helpers\ResponseHelper;
 use Ramsey\Uuid\Uuid;
 
@@ -57,7 +57,7 @@ class UserController extends Controller
 
         $user->assignRole('user');
 
-        Mail::to($user)->send(new EmailConfirmation($user));
+        $user->notify(new EmailConfirmationRequest($user->confirmation_code));
 
         return response()->json($user, 201);
     }
