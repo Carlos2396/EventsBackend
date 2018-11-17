@@ -41,8 +41,11 @@ class PasswordResetSuccess extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Cambio de contraseña')
+                    ->greeting('¡Hola!')
                     ->line('Se ha cambiado tu contraseña exitosamente.')
-                    ->line('Si tu no realizaste esta acción, por favor contáctanos inmediatamente.');
+                    ->line('Si tu no realizaste esta acción, por favor contáctanos inmediatamente.')
+                    ->salutation('Saludos.');
     }
 
     /**

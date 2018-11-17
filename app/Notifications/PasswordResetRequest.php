@@ -45,9 +45,12 @@ class PasswordResetRequest extends Notification
         $url = env('FRONTEND_ENDPOINT', '127.0.0.1:4200').'contraseña/reestablecer/'.$this->token;
 
         return (new MailMessage)
-                    ->line('Te enviamos este correo porque solicitaste reiniciar la contraseña de tu cuenta en Events.')
+                    ->subject('Reestablecer contraseña')
+                    ->greeting('¡Hola!')
+                    ->line('Te enviamos este correo porque solicitaste reiniciar la contraseña de tu cuenta en Eventos.')
                     ->action('Reestablecer contraseña', url($url))
-                    ->line('Si tu no solicitaste esta acción, no te preocupes, tu cuenta está segura.');
+                    ->line('Si tu no solicitaste esta acción, no te preocupes, tu cuenta está segura.')
+                    ->salutation('Saludos.');
     }
 
     /**

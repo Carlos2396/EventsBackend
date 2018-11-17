@@ -44,10 +44,12 @@ class EmailConfirmationRequest extends Notification
         $url = env('FRONTEND_ENDPOINT', '127.0.0.1').'/confirmar/'.$this->confirmation_code;
 
         return (new MailMessage)
-                    ->line('Bienvenido.')
+                    ->subject('Confirma tu cuenta')
+                    ->greeting('¡Hola!')
                     ->line('Para confirmar tu cuenta de correo electrónico, por da click en la siguiente liga.')
                     ->action('Confirmar cuenta', url($url))
-                    ->line('¡Gracias por usar nuestra aplicación!');
+                    ->line('¡Gracias por usar nuestra aplicación!')
+                    ->salutation('Saludos.');
     }
 
     /**
