@@ -21,10 +21,16 @@ Route::group(['namespace' => 'API'], function() {
      * Authentication routes
      */
     Route::group(['namespace' => 'Auth'], function() {
-        Route::post('login', 'AuthController@login')->name('login');
-        Route::get('confirm/{uuid}', 'AuthController@confirmAccount')->name('confirm');
-        Route::get('resend/{email}', 'AuthController@resendConfirmationEmail')->name('resend.confirmation');
+        // Forget password routes
+        Route::post('password/create', 'PasswordResetController@create')->name('password.reset.create');
+        Route::post('password/reset', 'PasswordResetController@reset')->name('password.reset');
+
+        // Email confirmation routes
+        Route::get('confirm/{uuid}', 'AuthController@confirmAccount')->name('confirmation');
+        Route::get('resend/{email}', 'AuthController@resendConfirmationEmail')->name('confirmation.resend');
     
+        // Session routes
+        Route::post('login', 'AuthController@login')->name('login');
         Route::group(['middleware' => 'auth:api'], function() { 
             Route::get('logout', 'AuthController@logout')->name('logout');
             Route::get('logged', 'AuthController@loggedUSer')->name('logged');

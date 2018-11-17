@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EmailConfirmation;
 use App\Helpers\ResponseHelper;
-use App\User;
 use Carbon\Carbon;
 use Validator;
+use App\User;
 
 class AuthController extends Controller
 {
@@ -113,7 +115,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $email)->get()->first();
-
+        
         if($user->confirmed_at != null) {
             return response()->json(['message' => 'Account already confirmed.'], 400);
         }

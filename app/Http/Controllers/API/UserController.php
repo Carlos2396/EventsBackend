@@ -7,11 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Helpers\ResponseHelper;
-use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailConfirmation;
-
+use App\Helpers\ResponseHelper;
+use Ramsey\Uuid\Uuid;
 
 class UserController extends Controller
 {

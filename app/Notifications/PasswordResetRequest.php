@@ -42,7 +42,7 @@ class PasswordResetRequest extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = env('FRONTEND_ENDPOINT', '127.0.0.1:4200').'/reestablecer/'.$this->token;
+        $url = env('FRONTEND_ENDPOINT', '127.0.0.1:4200').'contraseña/reestablecer/'.$this->token;
 
         return (new MailMessage)
                     ->line('Te enviamos este correo porque solicitaste reiniciar la contraseña de tu cuenta en Events.')
