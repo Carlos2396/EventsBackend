@@ -12,7 +12,15 @@ use Validator;
 
 class AuthController extends Controller
 {
+
+    /**
+     * Log in the user if credentials are valid.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(Request $request) {
+        // validates request data, returns errors if fails
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string'
@@ -22,13 +30,16 @@ class AuthController extends Controller
             return ResponseHelper::validationErrorResponse($validator->errors());
         }
 
+        // set session if credentials are valid
         if(Auth::attempt($request->only('email', 'password'))) { 
             $user = Auth::user();
 
+            // fail if user account is not confirmed
             if($user->confirmed_at == null) {
                 return response()->json(['message'=>'Account not confirmed.'], 401);
             }
 
+            // Creates access token and send in response
             $token =  $user->createToken('MyApp');
             $tokenStr = $token->accessToken; 
             $expiration = $token->token->expires_at->diffInSeconds(Carbon::now());
@@ -44,19 +55,40 @@ class AuthController extends Controller
         } 
     }
 
+    /**
+     * Log out user of session, revokes access token.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function logout() {
         $user = Auth::user();
         $token = $user->token();
         $token->revoke();
+        Auth::logout();
 
         return response(['success' => true], 200);
     }
 
+    /**
+     * Confirm account of user with provided uuid.
+     *
+     * @param  string  $uuid
+     * @return \Illuminate\Http\Response
+     */
     public function confirmAccount($uuid) {
+        // validates request data, returns errors if fails
+        $validator = Validator::make(['confirmation_code' => $uuid], [
+            'confirmation_code' => 'required|string|exists:users,confirmation_code'
+        ]);
+        
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
         $user = User::where('confirmation_code', $uuid)->get()->first();
 
-        if($user == null) {
-            return response()->json(['message'=>'Resource not found'], 404);
+        if($user->confirmed_at != null) {
+            return response()->json(['message' => 'Account already confirmed.'], 400);
         }
 
         $user->confirmed_at = Carbon::now();
@@ -65,11 +97,49 @@ class AuthController extends Controller
         return response()->json(null, 204);
     }
 
+    /**
+     * Resend the confirmation email to acoount with the provided email.
+     *
+     * @param  string  $email
+     * @return \Illuminate\Http\Response
+     */
+    public function resendConfirmationEmail(string $email) {
+        // validates request data, returns errors if fails
+        $validator = Validator::make(['email' => $email], [
+            'email' => 'required|string|email|exists:users,email'
+        ]);
+        
+        if($validator->fails()) {
+            return ResponseHelper::validationErrorResponse($validator->errors());
+        }
+
+        $user = User::where('email', $email)->get()->first();
+
+        if($user->confirmed_at != null) {
+            return response()->json(['message' => 'Account already confirmed.'], 400);
+        }
+
+        Mail::to($user)->send(new EmailConfirmation($user));
+
+        return response()->json(null, 204);
+    }
+
+    /**
+     * Get the logged user.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function loggedUser(Request $request) {
         $user = Auth::user();
+
         return response()->json($user, 200);
     }
 
+    /**
+     * Checks if user is authenticated.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function check(Request $request) {
         return response()->json([
             'authenticated' =>  Auth::check()

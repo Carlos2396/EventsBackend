@@ -23,6 +23,7 @@ Route::group(['namespace' => 'API'], function() {
     Route::group(['namespace' => 'Auth'], function() {
         Route::post('login', 'AuthController@login')->name('login');
         Route::get('confirm/{uuid}', 'AuthController@confirmAccount')->name('confirm');
+        Route::get('resend/{email}', 'AuthController@resendConfirmationEmail')->name('resend.confirmation');
     
         Route::group(['middleware' => 'auth:api'], function() { 
             Route::get('logout', 'AuthController@logout')->name('logout');
