@@ -26,8 +26,8 @@ Route::group(['namespace' => 'API'], function() {
         Route::post('password/reset', 'PasswordResetController@reset')->name('password.reset');
 
         // Email confirmation routes
-        Route::get('confirm/{uuid}', 'AuthController@confirmAccount')->name('confirmation');
-        Route::get('resend/{email}', 'AuthController@resendConfirmationEmail')->name('confirmation.resend');
+        Route::get('confirm/{uuid}', 'AccountConfirmationController@confirmAccount')->name('confirmation');
+        Route::get('resend/{email}', 'AccountConfirmationController@resendConfirmationEmail')->name('confirmation.resend');
     
         // Session routes
         Route::post('login', 'AuthController@login')->name('login');
