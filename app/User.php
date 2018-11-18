@@ -64,7 +64,7 @@ class User extends Authenticatable
         'lastname' => 'required|string|max:100',
         'birthdate' => 'required|date',
         'gender' => 'required|string|alpha',
-        'phone' => 'required|numeric',
+        'phone' => 'required|numeric|max:999999999999',
         'alias' => 'nullable|string|max:100'
     ];
 

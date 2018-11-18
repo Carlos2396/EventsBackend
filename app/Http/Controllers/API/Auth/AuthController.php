@@ -36,7 +36,7 @@ class AuthController extends Controller
 
             // fail if user account is not confirmed
             if($user->confirmed_at == null) {
-                return response()->json(['message'=>'Account not confirmed.'], 401);
+                return response()->json(['message'=>'Account not confirmed.'], 418);
             }
 
             // Creates access token and send in response
