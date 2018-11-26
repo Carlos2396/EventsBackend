@@ -56,6 +56,8 @@ Route::group(['namespace' => 'API'], function() {
         /**
          * Extras routes
          */
+        Route::get('extras/general/{event_id}', 'ExtraController@generalAnswers')->name('extras.general'); 
+        Route::get('extras/{event_id}/{user_id}', 'ExtraController@individualAnswers')->name('extras.individual');
         Route::get('extras', 'ExtraController@index')->name('extras.list'); 
         Route::post('extras', 'ExtraController@store')->name('extras.store');
         Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
