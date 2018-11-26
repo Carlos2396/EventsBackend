@@ -6,6 +6,7 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper; 
+use Illuminate\Support\Facades\Redis;
 
 class EventController extends Controller
 {
@@ -15,8 +16,14 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {      
-        $events = Event::with(Event::relations)->get();
+    {
+        $events = json_decode(Redis::get(Event::redis_title));
+
+        if($events == null) {
+            $events = Event::with(Event::relations)->get()->sortByDesc('created_at');
+            Redis::setex(Event::redis_title, 60*10, $events);
+        }   
+
         return response()->json($events, 200);
     }
 

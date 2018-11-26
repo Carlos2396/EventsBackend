@@ -11,6 +11,8 @@ class Event extends Model
 
     const relations = ['locations', 'sponsors', 'organizer', 'extras', 'attendees'];
 
+    const redis_title = 'events';
+
     public function locations(){
         return $this->hasMany('App\Models\Location');
     }

@@ -8,6 +8,8 @@ use Validator;
 class Location extends Model
 {
     const relations = ['event'];
+    const redis_title = 'locations';
+
     protected $fillable = ['event_id', 'name', 'address', 'lat', 'lng'];
 
     public static function validate($data) {

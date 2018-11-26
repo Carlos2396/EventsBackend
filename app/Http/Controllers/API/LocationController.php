@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class LocationController extends Controller
 {
@@ -16,7 +17,13 @@ class LocationController extends Controller
      */
     public function index()
     {
-        $locations = Location::with(Location::relations)->get();
+        $locations = json_decode(Redis::get(Location::redis_title));
+
+        if($locations == null) {
+            $locations = Location::with(Location::relations)->get()->sortByDesc('created_at');
+            Redis::setex(Location::redis_title, 60*10, $locations);
+        }
+        
         return response()->json($locations, 200);
     }
 
