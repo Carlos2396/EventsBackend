@@ -13,6 +13,14 @@ use App\Models\Event;
 class TicketController extends Controller
 {
     /**
+    *List all tickets of a user
+    */
+    public function index(User $user){
+        $events = $user->events;
+        return response()->json($events, 200);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

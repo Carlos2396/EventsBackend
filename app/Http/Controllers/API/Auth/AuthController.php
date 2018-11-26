@@ -74,7 +74,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function loggedUser(Request $request) {
-        $user = Auth::user();
+        $user = User::with(User::relations)->get()->find(Auth::user()->id);
 
         return response()->json($user, 200);
     }
