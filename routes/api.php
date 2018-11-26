@@ -42,6 +42,7 @@ Route::group(['namespace' => 'API'], function() {
      */
     Route::post('users', 'UserController@store')->name('users.register');
     
+        
     /**
      * Auth protected routes
      */
@@ -89,6 +90,7 @@ Route::group(['namespace' => 'API'], function() {
         /**
          * Ticket routes
          */
+        Route::get('tickets/{user}', 'TicketController@index')->name('tickets.list');
         Route::post('tickets', 'TicketController@store')->name('tickets.store');
         Route::delete('users/{user}/events/{event}', 'TicketController@destroy')->name('tickets.delete');
 
