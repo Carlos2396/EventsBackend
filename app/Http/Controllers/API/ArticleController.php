@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use DB;
+use Redis;
+use Cache;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
@@ -16,6 +19,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $redis = Redis::Connection();
+
+        $popular = $redis->zRevRange('articleViews', 0, -1);
+
+        dd($popular);
+
         return response()->json(Article::all(), 200);
     }
 
@@ -27,6 +36,19 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
+        $redis = Redis::Connection();
+
+        $redis->pipeline(function($pipe) use($article) {
+            $pipe->incr('article:'.$article->id.':views');
+            $pipe->zIncrBy('articleViews', 1, 'article:'.$article->id);
+        });    
+
+        $article->views = $redis->get('article:'.$article->id.':views');
+
+        if($redis->zScore('articleViews','article:'.$article->id)) {
+            $article->zviews = $redis->zScore('articleViews', 'article:'.$article->id);
+        }
+
         return response()->json($article, 200);
     }
 

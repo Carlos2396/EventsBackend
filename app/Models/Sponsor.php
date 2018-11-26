@@ -11,6 +11,7 @@ class Sponsor extends Model
     protected $fillable = ['name', 'image', 'event_id'];
 
     const relations = ['events'];
+    const redis_title = 'sponsors';
 
     public function events(){
         return $this->belongsTo('App\Models\Event');

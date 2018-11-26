@@ -18,6 +18,15 @@ use Illuminate\Support\Facades\Auth;
 Route::group(['namespace' => 'API'], function() {
 
     /**
+     * Articles routes
+     */
+    Route::get('articles', 'ArticleController@index')->name('articles.list'); 
+    Route::post('articles', 'ArticleController@store')->name('articles.store');
+    Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
+    Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
+    Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
+
+    /**
      * Authentication routes
      */
     Route::group(['namespace' => 'Auth'], function() {
@@ -69,15 +78,6 @@ Route::group(['namespace' => 'API'], function() {
          */
         Route::post('answers', 'AnswerController@store')->name('answers.store');
         Route::put('answers/{answer}', 'AnswerController@update')->name('answers.update');
-
-        /**
-         * Articles routes
-         */
-        Route::get('articles', 'ArticleController@index')->name('articles.list'); 
-        Route::post('articles', 'ArticleController@store')->name('articles.store');
-        Route::put('articles/{article}', 'ArticleController@update')->name('articles.update');
-        Route::delete('articles/{article}', 'ArticleController@destroy')->name('articles.delete');
-        Route::get('articles/{article}', 'ArticleController@show')->name('articles.show');
 
         /**
          * Sponsor routes
