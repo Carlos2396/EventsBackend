@@ -41,6 +41,13 @@ Route::group(['namespace' => 'API'], function() {
      * Unprotected routes
      */
     Route::post('users', 'UserController@store')->name('users.register');
+    Route::get('extras/general/{event_id}', 'ExtraController@generalAnswers')->name('extras.general'); 
+    Route::get('extras/{event_id}/{user_id}', 'ExtraController@individualAnswers')->name('extras.individual');
+    Route::get('extras', 'ExtraController@index')->name('extras.list'); 
+        Route::post('extras', 'ExtraController@store')->name('extras.store');
+        Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
+        Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
+        Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
     
     /**
      * Auth protected routes
@@ -55,11 +62,7 @@ Route::group(['namespace' => 'API'], function() {
         /**
          * Extras routes
          */
-        Route::get('extras', 'ExtraController@index')->name('extras.list'); 
-        Route::post('extras', 'ExtraController@store')->name('extras.store');
-        Route::put('extras/{extra}', 'ExtraController@update')->name('extras.update');
-        Route::delete('extras/{extra}', 'ExtraController@destroy')->name('extras.delete');
-        Route::get('extras/{extra}', 'ExtraController@show')->name('extras.show');
+        
 
         /**
          * Answers routes
