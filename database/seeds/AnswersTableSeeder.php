@@ -23,7 +23,7 @@ class AnswersTableSeeder extends Seeder
 
         DB::table('answers')->insert ([
             'user_id' => 2,
-            'extra_id' => 1,
+            'extra_id' => 2,
             'answer' => '60',
             'created_at'=> Carbon::now(),
             'updated_at' => Carbon::now()
