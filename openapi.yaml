@@ -337,4 +337,76 @@ paths:
           type: string
           in: body
           required: true
+  "/extras/general/{event_id}":
+    get:
+      description: "Retrieves extras for specified event."
+      operationId: "extras.general"
+      responses:
+        200:
+          description: "Extras"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: event_id
+          type: number
+          in: query
+          required: true
+  "/extras/{event_id}/{user_id}":
+    get:
+      description: "Retrieves extras for specified event and user."
+      operationId: "extras.individual"
+      responses:
+        200:
+          description: "Extras"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: event_id
+          type: number
+          in: query
+          required: true
+        - name: user_id
+          type: number
+          in: query
+          required: true
+  "/extras/{extra}"
+    delete:
+      description: "Deletes specified extra."
+      operationId: "extras.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: extra
+          type: Extra
+          in: query
+          required: true
+  "/answers":
+    post:
+      description: "Retrieves extras for specified event and user."
+      operationId: "extras.individual"
+      responses:
+        201:
+          description: "Created answers"
+        400:
+          description: "Failed data validations."
+      parameters:
+        - name: id
+          type: number
+          in: body
+          required: true
+        - name: user_id
+          type: number
+          in: body
+          required: true
+        - name: answer
+          type: string
+          in: body
+          required: true
+
+  
 definitions:
