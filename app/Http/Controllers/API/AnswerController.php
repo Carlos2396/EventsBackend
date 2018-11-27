@@ -41,6 +41,38 @@ class AnswerController extends Controller
     }
 
     /**
+     * Store an array of newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMany(Request $request)
+    {
+        $currentRequest = $request->all()['arr'];
+
+        foreach($currentRequest as $current){
+
+            $validator = Validator::make($current, [
+                'user_id' => 'required | exists:users,id',
+                'id' => 'required | exists:extras,id',
+                'answer' => 'required | max: 1000'
+            ]);
+
+            if($validator->fails()) {
+                return ResponseHelper::validationErrorResponse($validator->errors());
+            }
+        }
+
+        $user = User::find($currentRequest[0]['user_id']);
+
+        foreach($currentRequest as $current){
+            $user->extras()->attach($current['id'], ['answer'=>$current['answer']]);
+        }
+
+        return response()->json($user->extras->where('event_id', $currentRequest[0]['event_id']), 201);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

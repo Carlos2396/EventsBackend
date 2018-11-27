@@ -76,7 +76,8 @@ Route::group(['namespace' => 'API'], function() {
         /**
          * Answers routes
          */
-        Route::post('answers', 'AnswerController@store')->name('answers.store');
+        Route::post('answers', 'AnswerController@storeMany')->name('answers.storeMany');
+        Route::post('answer', 'AnswerController@store')->name('answers.store');
         Route::put('answers/{answer}', 'AnswerController@update')->name('answers.update');
 
         /**
