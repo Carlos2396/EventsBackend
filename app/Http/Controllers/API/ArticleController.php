@@ -23,8 +23,6 @@ class ArticleController extends Controller
 
         $popular = $redis->zRevRange('articleViews', 0, -1);
 
-        dd($popular);
-
         return response()->json(Article::all(), 200);
     }
 
