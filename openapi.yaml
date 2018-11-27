@@ -13,7 +13,7 @@ produces:
 - "application/json"
 schemes:
 # Uncomment the next line if you configure SSL for this API.
-#- "https"
+- "https"
 - "http"
 paths:
   "/users":
@@ -338,27 +338,3 @@ paths:
           in: body
           required: true
 definitions:
-  User:
-    type: object
-    properties:
-      firstname:
-        type: string
-      lastname:
-        type: string
-      birthdate:
-        type: date
-      gender: 
-        type: string
-      phone:
-        type: number
-      alias: 
-        type: string
-      email:
-        type: string
-    required:
-      - firstname
-      - lastname
-      - birthdate
-      - gender
-      - phone
-      - email
