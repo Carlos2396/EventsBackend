@@ -6,6 +6,7 @@ use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
+use Illuminate\Support\Facades\Redis;
 
 class SponsorController extends Controller
 {
@@ -16,8 +17,14 @@ class SponsorController extends Controller
      */
     public function index()
     {
-        $sponsor = Sponsor::with(Sponsor::relations)->get();
-        return response()->json($sponsor, 200);
+        $sponsors = json_decode(Redis::get(Sponsor::redis_title));
+
+        if($sponsors == null) {
+            $sponsors = Sponsor::with(Sponsor::relations)->get()->sortByDesc('created_at');
+            Redis::setex(Sponsor::redis_title, 60*10, $sponsors);
+        }
+        
+        return response()->json($sponsors, 200);
     }
 
     /**

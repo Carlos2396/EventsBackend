@@ -8,6 +8,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class ExtraController extends Controller
 {
@@ -18,7 +19,13 @@ class ExtraController extends Controller
      */
     public function index()
     {
-        $extras = Extra::with(Extra::relations)->get();
+        $extras = json_decode(Redis::get(Extra::redis_title));
+
+        if($extras == null) {
+            $extras = Extra::with(Extra::relations)->get()->sortByDesc('created_at');
+            Redis::setex(Extra::redis_title, 60*10, $extras);
+        }
+        
         return response()->json($extras, 200);
     }
 

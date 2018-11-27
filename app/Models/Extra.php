@@ -8,7 +8,9 @@ use Validator;
 class Extra extends Model
 {
     protected $fillable = ['text', 'event_id'];
+
     const relations = ['users', 'event'];
+    const redis_title = 'extras';
 
     public static function validate($data) {
         return Validator::make($data, [
