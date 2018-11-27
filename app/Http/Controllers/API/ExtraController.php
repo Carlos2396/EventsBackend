@@ -82,19 +82,10 @@ class ExtraController extends Controller
     
 
     public function individualAnswers($event_id, $user_id){
-        $event = Event::find($event_id);
-        $extra_ids = $event->extras;
-        $index = 0;
+        $user = User::find($user_id);
+        $answers = $user->extras->where('event_id', $event_id);
 
-        $results = [];
-
-        for($index = 0; $index < count($extra_ids); $index+=1){
-            $extra = Extra::find($extra_ids[$index]->id);
-            $answer = $extra->users->where('id', $user_id)[0];
-            $results[$index] = ($answer)->pivot->answer;
-        }
-
-        return response()->json($results, 200);
+        return response()->json($answers, 200);
     }
 
     public function generalAnswers($event_id){
