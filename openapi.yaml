@@ -407,6 +407,370 @@ paths:
           type: string
           in: body
           required: true
-
-  
+  "/tickets":
+    post:
+      description: "Create a new ticket" 
+      operationId: "ticket.store"
+      responses:
+        201:
+          description: "Created ticket"
+        400:
+          desciption: "Failed data validations"
+      parameters:
+        - name: event_id
+          type: number
+          in: body
+          required: true
+        - name: user_id
+          type: number
+          in: body
+          required: true
+  "/tickets/{user}":
+    get:
+      description: "Retrieves list of tickets."
+      operationId: "users.list"
+      responses:
+        200:
+          description: "Tickets"
+        401:
+          description: "Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+  "users/{user}/events/{event}":
+    delete:
+      description: "Deletes specified ticket."
+      operationId: "tickets.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+  "/locations":
+    get:
+      description: "Retrieves all locationss."
+      operationId: "locations.list"
+      responses:
+        200:
+          description: "List of locations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "CReate location." 
+      operationId: "locations.store"
+      responses:
+        201:
+          description: "Created location"
+        400:
+          desciption: "Failed data validations"
+      parameters:
+        - name: event_id
+          type: number
+          in: body
+          required: true
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: address
+          type: string
+          in: body
+          required: true
+        - name: lat
+          type: number
+          in: body
+          required: true
+        - name: long
+          type: number
+          in: body
+          required: true
+  "/locations/{location}":
+    get:
+      description: "Retrieves specified location."
+      operationId: "locations.show"
+      responses:
+        200:
+          description: "Location"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+    put:
+      description: "Updates specified location."
+      operationId: "locations.update"
+      responses:
+        200:
+          description: "Location"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: event_id
+          type: number
+          in: body
+          required: true
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: address
+          type: string
+          in: body
+          required: true
+        - name: lat
+          type: number
+          in: body
+          required: true
+        - name: long
+          type: number
+          in: body
+          required: true
+    delete:
+      description: "Deletes specified location."
+      operationId: "locations.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+  "/events":
+    get:
+      description: "Retrieves all events."
+      operationId: "events.list"
+      responses:
+        200:
+          description: "List of events"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "Create event." 
+      operationId: "events.store"
+      responses:
+        201:
+          description: "Created event"
+        400:
+          desciption: "Failed data validations"
+      parameters:
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: starts
+          type: date
+          in: body
+          required: true
+        - name: end
+          type: date
+          in: body
+          required: true
+        - name: registration_start
+          type: date
+          in: body
+          required: true
+        - name: registration_end
+          type: date
+          in: body
+          required: true
+        - name: image
+          type: string
+          in: body
+          required: true
+        - name: description
+          type: string
+          in: body
+          required: true
+        - name: organizer_id
+          type: number
+          in: body
+          required: true
+        - name: guest_capacity
+          type: number
+          in: body
+          required: true
+        - name: event_type
+          type: number
+          in: body
+          required: true
+  "/events/{event}":
+    get:
+      description: "Retrieves specified event."
+      operationId: "events.show"
+      responses:
+        200:
+          description: "Event"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+    put:
+      description: "Updates specified event."
+      operationId: "events.update"
+      responses:
+        200:
+          description: "Event"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: starts
+          type: date
+          in: body
+          required: true
+        - name: end
+          type: date
+          in: body
+          required: true
+        - name: registration_start
+          type: date
+          in: body
+          required: true
+        - name: registration_end
+          type: date
+          in: body
+          required: true
+        - name: image
+          type: string
+          in: body
+          required: true
+        - name: description
+          type: string
+          in: body
+          required: true
+        - name: organizer_id
+          type: number
+          in: body
+          required: true
+        - name: guest_capacity
+          type: number
+          in: body
+          required: true
+        - name: event_type
+          type: number
+          in: body
+          required: true
+    delete:
+      description: "Deletes specified event."
+      operationId: "events.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true        
+  "/sponsors":
+    get:
+      description: "Retrieves all sponsors."
+      operationId: "sponsors.list"
+      responses:
+        200:
+          description: "List of sponsors"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "Create sponsor." 
+      operationId: "sponsors.store"
+      responses:
+        201:
+          description: "Created sponsor"
+        400:
+          desciption: "Failed data validations"
+      parameters:
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: image
+          type: string
+          in: body
+          required: true
+        - name: event_id
+          type: number
+          in: body
+          required: true
+  "/sponsors/{sponsor}":
+    get:
+      description: "Retrieves specified sponsor."
+      operationId: "sponsors.show"
+      responses:
+        200:
+          description: "Sponsor"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
+    put:
+      description: "Updates specified sponsor."
+      operationId: "sponsors.update"
+      responses:
+        200:
+          description: "Sponsor"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: name
+          type: string
+          in: body
+          required: true
+        - name: image
+          type: string
+          in: body
+          required: true
+        - name: event_id
+          type: number
+          in: body
+          required: true
+    delete:
+      description: "Deletes specified sponsor."
+      operationId: "sponsors.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true           
 definitions:
