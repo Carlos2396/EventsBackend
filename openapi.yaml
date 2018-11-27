@@ -385,17 +385,50 @@ paths:
           type: Extra
           in: query
           required: true
+  "/extras":
+    post:
+      description: "Creates a group of extras."
+      operationId: "extras.storeMany"
+      responses:
+        201:
+          description: "Created extras"
+        400:
+          description: "Failed data validations."
+      parameters:
+        - name: text
+          type: string
+          in: body
+          required: true
+        - name: event_id
+          type: number
+          in: body
+          required: true
+    delete:
+      description: "Deletes specified extra."
+      operationId: "extras.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          desciption: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: query
+          required: true
   "/answers":
     post:
-      description: "Retrieves extras for specified event and user."
-      operationId: "extras.individual"
+      description: "Creates a group of answers."
+      operationId: "answers.storeMany"
       responses:
         201:
           description: "Created answers"
         400:
           description: "Failed data validations."
       parameters:
-        - name: id
+        - name: extra_id
           type: number
           in: body
           required: true
