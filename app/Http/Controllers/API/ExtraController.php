@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Validator;
 
 class ExtraController extends Controller
 {
@@ -29,6 +30,37 @@ class ExtraController extends Controller
         return response()->json($extras, 200);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeMany(Request $request)
+    {
+        $currentRequest = $request->all()['arr'];
+        foreach($currentRequest as $current){
+            $validator = Validator::make($current, [
+                'text' => 'required | max: 1000',
+                'event_id' => 'required | exists:events,id'
+            ]);
+
+            if($validator->fails()) {
+                return ResponseHelper::validationErrorResponse($validator->errors());
+            }
+        }
+
+        foreach($currentRequest as $current) {
+            $extra = Extra::create([
+                'event_id' => $current['event_id'], 
+                'text' => $current['text']
+            ]);
+        }
+
+        $event = Event::find($extra->event_id);
+        return response()->json($event->extras, 201);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *

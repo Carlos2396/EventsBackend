@@ -51,7 +51,6 @@ class AnswerController extends Controller
         $currentRequest = $request->all()['arr'];
 
         foreach($currentRequest as $current){
-
             $validator = Validator::make($current, [
                 'user_id' => 'required | exists:users,id',
                 'id' => 'required | exists:extras,id',
