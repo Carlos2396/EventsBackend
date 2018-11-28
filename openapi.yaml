@@ -1,0 +1,758 @@
+# [START swagger]
+swagger: "2.0"
+info:
+  description: "Events API running in kubernetes."
+  title: "Events API"
+  version: "1.0.0"
+host: "events-api.endpoints.adminsoft-216205.cloud.goog"
+# [END swagger]
+consumes:
+- "application/json"
+produces:
+- "application/json"
+schemes:
+# Uncomment the next line if you configure SSL for this API.
+#- "https"
+- "http"
+paths:
+  "/users":
+    get:
+      description: "Retrieves all registered users."
+      operationId: "users.list"
+      responses:
+        200:
+          description: "List of users"
+    post:
+      description: "Registers a user in the platform." 
+      operationId: "users.register"
+      responses:
+        201:
+          description: "Created user"
+        400:
+          description: "Validation error"
+      parameters:
+        - name: user
+          in: body
+          description: "User to register"
+          schema:
+            $ref: '#/definitions/UserCreate'
+  "/users/{id}":
+    get:
+      description: "Retrieves specified user."
+      operationId: "users.show"
+      responses:
+        200:
+          description: "User"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+    put:
+      description: "Updates specified user."
+      operationId: "users.update"
+      responses:
+        200:
+          description: "User"
+        400:
+          description: "Validation errors"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: user
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/UserUpdate'
+    delete:
+      description: "Deletes specified user."
+      operationId: "users.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Validation errors"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/users/{id}/changePassword":
+    put:
+      description: "Updates specified user."
+      operationId: "users.changePassword"
+      responses:
+        200:
+          description: "User"
+        400:
+          description: "Failed validations."
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: resetPassword
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/ChangePassword'
+  "/user":
+    get:
+      description: "Retrieve the logged user."
+      operationId: "users.logged"
+      responses:
+        200:
+          description: "Logged User"
+        401:
+          description: "User not authenticated."
+    put:
+      description: "Retrieve the logged user."
+      operationId: "users.logged.update"
+      responses:
+        200:
+          description: "Logged User"
+        401:
+          description: "User not authenticated."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: user
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/UserUpdate'
+    delete:             
+      description: "Delete account of logged user."
+      operationId: "users.logged.delete"
+      responses:
+        204:
+          description: "Empty response"
+        401:
+          description: "User not authenticated."
+  "/user/changePassword": 
+    put:
+      description: Changes logge user password
+      operationId: users.logged.changePassword
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed validations."
+        401:
+          description: "User not authenticated."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: password
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/ChangePassword'
+  "/logout":
+    get:
+      description: Log out 
+      operationId: logout
+      responses:
+        204:
+          description: "Empty response"
+        401:
+          description: "User not authenticated."
+  "/confirm/{uuid}":
+    get: 
+      description: Confirm account
+      operationId: confirmation
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed validations."
+      parameters:
+        - name: uuid
+          type: string
+          in: path
+          required: true
+  "/resend/{email}":
+    get:
+      description: Resend confirmation email
+      operationId: confirmation.resend
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed validations."
+      parameters:
+        - name: email
+          type: string
+          in: path
+          required: true
+  "/password/create":
+    post: 
+      description: Create password reset request
+      operationId: password.reset.create
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+      parameters:
+        - name: email
+          type: string
+          in: path
+          required: true
+  "/password/reset":
+    post:
+      description: Resend confirmation email
+      operationId: password.reset
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "Provided token has expired"
+      parameters:
+        - name: resetPassword
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/ResetPassword'
+  "/extras/general/{id}":
+    get:
+      description: "Retrieves extras for specified event."
+      operationId: "extras.general"
+      responses:
+        200:
+          description: "Extras"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/extras/{event_id}/{user_id}":
+    get:
+      description: "Retrieves extras for specified event and user."
+      operationId: "extras.individual"
+      responses:
+        200:
+          description: "Extras"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: event_id
+          type: number
+          in: path
+          required: true
+        - name: user_id
+          type: number
+          in: path
+          required: true
+  "/extras/{id}":
+    delete:
+      description: "Deletes specified extra."
+      operationId: "extras.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/extras":
+    post:
+      description: "Creates a group of extras."
+      operationId: "extras.storeMany"
+      responses:
+        201:
+          description: "Created extras"
+        400:
+          description: "Failed data validations."
+      parameters:
+        - name: extra
+          in: body
+          description: "User to update"
+          schema:
+            $ref: '#/definitions/Extra'
+  "/answers":
+    post:
+      description: "Creates a group of answers."
+      operationId: "answers.storeMany"
+      responses:
+        201:
+          description: "Created answers"
+        400:
+          description: "Failed data validations."
+      parameters:
+        - name: answer
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Answer'
+  "/tickets":
+    post:
+      description: "Create a new ticket" 
+      operationId: "ticket.store"
+      responses:
+        201:
+          description: "Created ticket"
+        400:
+          description: "Failed data validations"
+      parameters:
+        - name: ticket
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Ticket'
+  "/tickets/{id}":
+    get:
+      description: "Retrieves list of tickets."
+      operationId: "tikcets.list"
+      responses:
+        200:
+          description: "Tickets"
+        401:
+          description: "Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/users/{user_id}/events/{event_id}":
+    delete:
+      description: "Deletes specified ticket."
+      operationId: "tickets.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "Have not proper permissions."
+      parameters:
+        - name: user_id
+          type: number
+          in: path
+          required: true
+        - name: event_id
+          type: number
+          in: path
+          required: true
+  "/locations":
+    get:
+      description: "Retrieves all locationss."
+      operationId: "locations.list"
+      responses:
+        200:
+          description: "List of locations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "CReate location." 
+      operationId: "locations.store"
+      responses:
+        201:
+          description: "Created location"
+        400:
+          description: "Failed data validations"
+      parameters:
+        - name: location
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Location'
+  "/locations/{id}":
+    get:
+      description: "Retrieves specified location."
+      operationId: "locations.show"
+      responses:
+        200:
+          description: "Location"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+    put:
+      description: "Updates specified location."
+      operationId: "locations.update"
+      responses:
+        200:
+          description: "Location"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: location
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Location'
+    delete:
+      description: "Deletes specified location."
+      operationId: "locations.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/events":
+    get:
+      description: "Retrieves all events."
+      operationId: "events.list"
+      responses:
+        200:
+          description: "List of events"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "Create event." 
+      operationId: "events.store"
+      responses:
+        201:
+          description: "Created event"
+        400:
+          description: "Failed data validations"
+      parameters:
+        - name: event
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Event'
+  "/events/{id}":
+    get:
+      description: "Retrieves specified event."
+      operationId: "events.show"
+      responses:
+        200:
+          description: "Event"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+    put:
+      description: "Updates specified event."
+      operationId: "events.update"
+      responses:
+        200:
+          description: "Event"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: event
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Event'
+    delete:
+      description: "Deletes specified event."
+      operationId: "events.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+  "/sponsors":
+    get:
+      description: "Retrieves all sponsors."
+      operationId: "sponsors.list"
+      responses:
+        200:
+          description: "List of sponsors"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+    post:
+      description: "Create sponsor." 
+      operationId: "sponsors.store"
+      responses:
+        201:
+          description: "Created sponsor"
+        400:
+          description: "Failed data validations"
+      parameters:
+        - name: sponsor
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Sponsor'
+  "/sponsors/{id}":
+    get:
+      description: "Retrieves specified sponsor."
+      operationId: "sponsors.show"
+      responses:
+        200:
+          description: "Sponsor"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+    put:
+      description: "Updates specified sponsor."
+      operationId: "sponsors.update"
+      responses:
+        200:
+          description: "Sponsor"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+        - name: sponsor
+          in: body
+          description: ""
+          schema:
+            $ref: '#/definitions/Location'
+    delete:
+      description: "Deletes specified sponsor."
+      operationId: "sponsors.delete"
+      responses:
+        204:
+          description: "Empty response"
+        400:
+          description: "Failed data validations"
+        401:
+          description: "User not authenticated. Have not proper permissions."
+      parameters:
+        - name: id
+          type: number
+          in: path
+          required: true
+definitions:
+  UserCreate:
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      birthdate:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: number
+      alias:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      password_cofirmation:
+        type: string
+    required: 
+      - firstname
+      - lastname
+      - birthdate
+      - gender
+      - phone
+      - alias
+      - email
+      - password
+      - password_confirmation
+  UserUpdate:
+    type: object
+    properties:
+      firstname:
+        type: string
+      lastname:
+        type: string
+      birthdate:
+        type: string
+      gender:
+        type: string
+      phone:
+        type: number
+      alias:
+        type: string
+      email:
+        type: string
+    required: 
+      - firstname
+      - lastname
+      - birthdate
+      - gender
+      - phone
+      - alias
+      - email
+  ChangePassword:
+    type: object
+    properties:
+      old_password:
+          type: string
+      password:
+        type: number
+      password_confirmation:
+        type: string
+    required: 
+      - old_password
+      - password
+      - password_confirmation
+  ResetPassword:
+    type: object
+    properties:
+      changePassword:
+        type: object
+      token:
+        type: string
+    required: 
+      - changePassword
+      - token
+  MultipleExtras:
+    type: array
+    items:
+      type: object
+  Extra:
+    type: object
+    properties:
+      text:
+        type: string
+      event_id:
+        type: number
+    required:
+      - text
+      - event_id
+  Answer:
+    type: object
+    properties:
+      extra_id:
+        type: number
+      user_id:
+        type: number
+      answer:
+        type: string
+    required:
+      - extra_id
+      - user_id
+      - answer
+  Ticket:
+    type: object
+    properties: 
+      event_id:
+          type: number
+      user_id:
+        type: number
+    required:
+      - event_id
+      - user_id
+  Location:
+    type: object
+    properties:
+      event_id:
+        type: number
+      name:
+        type: string
+      address:
+        type: string
+      lat:
+        type: number
+      lng:
+        type: number
+    required:
+      - event_id
+      - name
+      - address
+      - lat
+      - lng
+  Event:
+    type: object
+    properties:
+      name:
+        type: string
+      starts:
+        type: string
+      end:
+        type: string
+      registration_start:
+        type: string
+      registration_end:
+        type: string
+      image:
+        type: string
+      description:
+        type: string
+      organizer_id:
+        type: number
+      guest_capacity:
+        type: number
+      event_type:
+        type: number
+    required:
+      - name
+      - starts
+      - end
+      - registration_start
+      - registration_end
+      - image
+      - description
+      - organizer_id
+      - guest_capacity
+      - event_type
+  Sponsor:
+    type: object
+    properties:
+      name:
+        type: string
+      image:
+        type: string
+      event_id:
+        type: number
+    required:
+      - name
+      - image
+      - event_id

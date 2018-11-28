@@ -38,6 +38,8 @@ class PasswordResetController extends Controller
         ]);
 
         $user->notify(new PasswordResetRequest($passwordReset->token));
+
+        return response()->json(null, 204);
     }
 
     /**
