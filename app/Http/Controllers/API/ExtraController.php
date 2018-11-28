@@ -35,6 +35,35 @@ class ExtraController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function storeMany(Request $request)
+    {
+        $currentRequest = $request->all()['arr'];
+
+        foreach($currentRequest as $current){
+
+            $validator = Validator::make($current, [
+                'event_id' => 'required | exists:events,id',
+                'text' => 'required | max: 1000'
+            ]);
+
+            if($validator->fails()) {
+                return ResponseHelper::validationErrorResponse($validator->errors());
+            }
+        }
+
+        foreach($currentRequest as $current){
+            $event->extras()->attach($current['event_id'], ['text'=>$current['text']]);
+        }
+
+        return response()->json($event->extras->where('event_id', $currentRequest[0]['event_id']), 201);
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $validator = Extra::validate($request->all());
