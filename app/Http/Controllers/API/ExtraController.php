@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
+use Validator;
 
 class ExtraController extends Controller
 {
@@ -38,12 +39,10 @@ class ExtraController extends Controller
     public function storeMany(Request $request)
     {
         $currentRequest = $request->all()['arr'];
-
         foreach($currentRequest as $current){
-
             $validator = Validator::make($current, [
-                'event_id' => 'required | exists:events,id',
-                'text' => 'required | max: 1000'
+                'text' => 'required | max: 1000',
+                'event_id' => 'required | exists:events,id'
             ]);
 
             if($validator->fails()) {
@@ -51,11 +50,15 @@ class ExtraController extends Controller
             }
         }
 
-        foreach($currentRequest as $current){
-            $event->extras()->attach($current['event_id'], ['text'=>$current['text']]);
+        foreach($currentRequest as $current) {
+            $extra = Extra::create([
+                'event_id' => $current['event_id'], 
+                'text' => $current['text']
+            ]);
         }
 
-        return response()->json($event->extras->where('event_id', $currentRequest[0]['event_id']), 201);
+        $event = Event::find($extra->event_id);
+        return response()->json($event->extras, 201);
     }
     
     /**
